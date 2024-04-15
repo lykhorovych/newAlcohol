@@ -39,7 +39,7 @@ jobs:
       - name: commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          github_token: ${{ secrets.QAUTO }}
+          github_token: ${{ secrets.Qauto }}
           add: 'data'
           author_name: oleh lykhorovych
           message: 'add new alcohol'
