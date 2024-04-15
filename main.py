@@ -16,7 +16,7 @@ parser.add_argument('--browser',
                     default='chrome',
                     help='browser to use')
 args = parser.parse_args()
-
+print(args)
 
 def get_list_of_alcohols():
     page = ATBPage(browser=args.browser)

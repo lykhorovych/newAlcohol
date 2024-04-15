@@ -25,7 +25,7 @@ django.setup()
 
 
 from visky.models import Alcohol
-from main import get_list_of_alcohol_in_rozetka
+from main import get_list_of_alcohol_in_rozetka, get_list_of_alcohols
 
 
 def load_all_alcohols(filename: str):
@@ -69,9 +69,11 @@ def write_to_db(alcohol: Product):
 
 if __name__ == '__main__':
     check_equality_version()
-    # alcohol_atb = get_list_of_alcohols()
-    # for alcohol in alcohol_atb:
-    #     write_to_db(alcohol.to_dict())
+    print("scrapping atb page")
+    alcohol_atb = get_list_of_alcohols()
+    for alcohol in alcohol_atb:
+        write_to_db(alcohol.to_dict())
+    print("scrapping rozetka page")
     alcohol_rozetka = get_list_of_alcohol_in_rozetka()
     for alcohol in alcohol_rozetka:
         write_to_db(alcohol.to_dict())
