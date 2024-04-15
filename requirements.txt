@@ -8,6 +8,5 @@ webdriver-manager==4.0.1
 psycopg2-binary
 chromedriver-py
 wget
-distutils
 
 
