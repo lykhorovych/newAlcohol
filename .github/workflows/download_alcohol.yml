@@ -1,4 +1,4 @@
-name: download alcohol
+name: alcohol workflow
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ on:
 jobs:
   scrap_alcohol:
     runs-on:
-      ubuntu/latest
+      ubuntu-latest
     if: ${{ inputs.alco == 'find' }}
     steps:
       - uses: actions/checkout@v4
@@ -44,7 +44,7 @@ jobs:
           author_name: oleh lykhorovych
           message: 'add new alcohol'
   lint_code:
-    runs-on: ubuntu/latest
+    runs-on: ubuntu-latest
     if: ${{ inputs.alco == 'lint' }}
     steps:
       - uses: actions/checkout@v4
