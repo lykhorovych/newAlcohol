@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id='num1'>Порахуйте наступний вираз</h1>
+    <button type="button" onclick="sum()" style="width: 100px; height: 50px">Press</button>
+    <script>
+        
+        function randomInteger (min, max) {
+            let rand = min + Math.random() * (max + 1 - min)
+            return Math.floor(rand)
+        }
+
+        let num1 = randomInteger(1, 100)
+        let num2 = randomInteger(1, 100)
+        let temp = 0
+        if (num2 > num1) {
+            temp = num1;
+            num1 = num2;
+            num2 = temp;
+        }
+        expected_result = num1 + num2
+
+        function sum () {
+            let result = prompt(`${num1} + ${num2}: ${expected_result}`)
+            if (result !== expected_result) {
+                alert('Відповідь не вірна\nСпробуйте ще раз');
+            } else {
+                alert('Відповідь вірна');
+            }
+        }
+    </script>
+</body>
+</html>

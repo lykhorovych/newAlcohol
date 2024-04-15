@@ -1,0 +1,12 @@
+asgiref==3.7.2
+Django>=5.0.1
+sqlparse==0.4.4
+requests==2.31.0
+selenium==4.15.2
+undetected-chromedriver==3.5.4
+webdriver-manager==4.0.1
+psycopg2-binary
+chromedriver-py
+wget
+
+

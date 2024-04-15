@@ -1,0 +1,49 @@
+name: download alcohol
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "* * * * 1"
+  push:
+    branches:
+      - "main"
+
+jobs:
+  scrap_alcohol:
+    runs-on:
+      ubuntu/latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: |
+            "3.x"
+      - name: install dependencies
+        run: pip install -r requirements.txt
+      - name: install google-chrome
+        run: sudo upt-get install google-chrome-stable
+
+      - name: start scrapping
+        run: python run.py
+      - name: commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'data'
+          author_name: oleh lykhorovych
+          message: 'add new alcohol'
+  lint_code:
+    runs-on: ubuntu/latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: install dependencies
+        run: pip install -r requirements.txt
+      - name: lint with Ruff
+        run: |
+          pip install ruff
+          ruff --output-format=github .
+        continue-on-error: true
+          
+
