@@ -4,18 +4,10 @@ from .models import Alcohol
 # Create your views here.
 
 
-def index(request):
-    if request.method == 'GET':
-        alcohols = Alcohol.objects.all()
-
-    return render(request, 'visky/all.html', {'alcohols': alcohols})
-
-
 class AlcoholListView(ListView):
     model = Alcohol
     template_name = 'visky/all.html'
     context_object_name = 'alcohols'
-
 
 
 class SearchAlcoholView(ListView):

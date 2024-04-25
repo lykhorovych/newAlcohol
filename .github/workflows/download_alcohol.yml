@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       alco:
-        description: 'choose alcohol or lint code'
+        description: 'choose alcohol or lint code'  #
         default: 'lint'
         required: true
         type: choice
@@ -13,9 +13,9 @@ on:
           - lint
   schedule:
     - cron: "* * * * 1"
-  push:
-    branches:
-      - "main"
+#  push:
+#    branches:
+#      - "main"
 
 jobs:
   scrap_alcohol:

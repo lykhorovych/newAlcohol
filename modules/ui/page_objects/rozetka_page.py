@@ -16,6 +16,7 @@ class RozetkaPage(BasePage):
         banner = self.element_is_visible(RozetkaLocators.EXPONEA_BANER)
         if banner:
             close_button = self.element_is_clickable(RozetkaLocators.EXPONEA_BANER_CLOSE_BUTTON)
+            self.driver.pause(5)
             close_button.click()
 
     def close_check_age_banner(self):
