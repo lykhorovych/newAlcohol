@@ -1,0 +1,50 @@
+{% extends "visky/base.html" %}
+{% block content %}
+    {% include 'visky/form.html' %}
+    {% if q %}
+        <a href="{% url 'all' %}"><h2>Назад</h2></a>
+        <h4>Результати пошуку за запитом <b style="color: #3875d7">{{ q }}</b></h4>
+    {% endif %}
+<table class="table table-sm">
+    <tr>
+        <th>Назва</th>
+        <th>Ціна</th>
+        <th>Код</th>
+        <th>Характеристики</th>
+    </tr>
+    <tbody>
+    {% for elem in alcohols %}
+	<tr>
+        <td>
+            <picture><img src="{{elem.image}}" width="150px"
+                 height="300px" loading="lazy"
+                 alt="" class="rounded mx-auto d-block">
+                <h4><a href="{{ elem.product_link }}">{{elem.name}}</a></h4>
+            </picture>
+        </td>
+        <td>{{ elem.prices.0.popitem.1 }}</td>
+        <td>{{ elem.product_code }}</td>
+        <td>
+            <ul>
+                {% for characteristic in elem.description %}
+                    <li>{{characteristic.0}}: {{ characteristic.1 }}</li>
+                    {% endfor %}
+            </ul>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const l = document.querySelectorAll('li')
+        l.forEach(el => {
+            if (el.innerText==='None: None') {
+                el.innerText="Немає опису даного товару"
+            }
+
+        })modules/ui/page_objects/rozetka_page.py
+    })
+</script>
+
+{% endblock %}
