@@ -12,22 +12,24 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY',
-                            default='django-insecure-6lt8siykqo@=$dq6yd@25ae1k1yk%5uksk!9@(wpf81cm!vr7$')
+SECRET_KEY = os.getenv('SECRET_KEY',
+                            default='django-insecure')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', default=True)
+DEBUG = int(os.getenv('DEBUG', default=True))
 
-ALLOWED_HOSTS = ['web-production-da7a.up.railway.app', ]
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS')
 
 
 # Application definition
