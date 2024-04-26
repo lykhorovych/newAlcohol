@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 import time
@@ -5,6 +6,11 @@ import django
 from django.conf import settings
 from modules.common.product import Product
 from modules.common.download_chromedriver import check_equality_version
+from dotenv import load_dotenv
+import dj_database_url
+
+
+load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -16,6 +22,12 @@ DATABASES = {
         'NAME': BASE_DIR / 'data/db.sqlite3',
     }
 }
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=500,
+        conn_health_checks=True,
+    )
+
 SETTINGS = dict((key, val) for key, val in locals().items() if key.isupper())
 
 if not settings.configured:
