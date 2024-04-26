@@ -21,7 +21,7 @@ jobs:
   scrap_alcohol:
     runs-on:
       ubuntu-latest
-    if: inputs.alco == 'find' || github.event.schedule
+    if: inputs.alco == 'find'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
