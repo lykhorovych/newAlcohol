@@ -3,7 +3,7 @@
     schedule:
       - cron: "* 2 * * 5"
   jobs:
-    scrap_alcohol:
+    find_alcohol:
       runs-on:
         ubuntu-latest
       steps:
