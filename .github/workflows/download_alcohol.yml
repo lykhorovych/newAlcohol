@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       alco:
-        description: 'choose alcohol or lint code'  #
+        description: 'choice alcohol or lint code'  #
         default: 'lint'
         required: true
         type: choice
@@ -12,7 +12,7 @@ on:
           - find
           - lint
   schedule:
-    - cron: "45 1 * * 6"
+    - cron: '0 20 * * 6'
 #  push:
 #    branches:
 #      - "main"
@@ -21,7 +21,7 @@ jobs:
   scrap_alcohol:
     runs-on:
       ubuntu-latest
-    if: inputs.alco == 'find' || github.event.schedule == '45 1 * * 6'
+    if: inputs.alco == 'find' || github.event.schedule == '0 20 * * 6'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
