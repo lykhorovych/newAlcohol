@@ -1,7 +1,7 @@
   name: job scheduler
   on:
     schedule:
-      - cron: "* 2 * * 5"
+      - cron: "1 13 * * 5"
   jobs:
     find_alcohol:
       runs-on:
@@ -18,7 +18,8 @@
         - name: install google-chrome
           run: sudo apt-get install google-chrome-stable
         - name: start scrapping
-          run: python run.py --browser undetected
+          run: |
+               python run.py --browser undetected
         - name: commit changes
           uses: EndBug/add-and-commit@v9
           with:
