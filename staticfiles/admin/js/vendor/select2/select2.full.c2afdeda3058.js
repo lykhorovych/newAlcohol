@@ -6729,7 +6729,7 @@ S2.define('select2/selection/stopPropagation',[
 
     function shouldAdjustOldDeltas(orgEvent, absDelta) {
         // If this is an older event and the delta is divisable by 120,
-        // then we are assuming that the browser is treating this as an
+        // then we are assuming that the browser_for_local_testing is treating this as an
         // older mouse wheel event and that we should divide the deltas
         // by 40 to try and get a more usable deltaFactor.
         // Side note, this actually impacts the reported scroll distance

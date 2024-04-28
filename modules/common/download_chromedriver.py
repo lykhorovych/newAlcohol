@@ -24,7 +24,7 @@ def find_chrome_executable():
         for subitem in (
                 "google-chrome",
                 "chromium",
-                "chromium-browser",
+                "chromium-browser_for_local_testing",
                 "chrome",
                 "google-chrome-stable",):
             candidates.append(os.sep.join((item, subitem)))

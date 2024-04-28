@@ -11,12 +11,13 @@ from modules.common.product import Product
 from config.config import BASE_DIR
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--browser',
+parser.add_argument('--browser_for_local_testing',
                     choices=['chrome', 'undetected', 'remote'],
                     default='chrome',
-                    help='browser to use')
+                    help='browser_for_local_testing to use')
 args = parser.parse_args()
 print(args)
+
 
 def get_list_of_alcohols():
     page = ATBPage(browser=args.browser)

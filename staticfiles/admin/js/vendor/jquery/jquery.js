@@ -893,7 +893,7 @@ function find( selector, context, results, seed ) {
 					newContext = rsibling.test( selector ) && testContext( context.parentNode ) ||
 						context;
 
-					// We can use :scope instead of the ID hack if the browser
+					// We can use :scope instead of the ID hack if the browser_for_local_testing
 					// supports it & if we're not changing the context.
 					// Support: IE 11+, Edge 17 - 18+
 					// IE/Edge sometimes throw a "Permission denied" error when
@@ -1959,7 +1959,7 @@ Expr = jQuery.expr = {
 
 			// Support: IE <=11+
 			// Accessing the selectedIndex property
-			// forces the browser to treat the default option as
+			// forces the browser_for_local_testing to treat the default option as
 			// selected when in an optgroup.
 			if ( elem.parentNode ) {
 				// eslint-disable-next-line no-unused-expressions
@@ -3855,7 +3855,7 @@ function completed() {
 }
 
 // Catch cases where $(document).ready() is called
-// after the browser event has already occurred.
+// after the browser_for_local_testing event has already occurred.
 // Support: IE <=9 - 10 only
 // Older IE sometimes signals "interactive" too soon
 if ( document.readyState === "complete" ||
@@ -5297,7 +5297,7 @@ jQuery.event = {
 				return true;
 			},
 
-			// For cross-browser consistency, suppress native .click() on links
+			// For cross-browser_for_local_testing consistency, suppress native .click() on links
 			// Also prevent it if we're currently inside a leveraged native-event stack
 			_default: function( event ) {
 				var target = event.target;
@@ -5719,7 +5719,7 @@ jQuery.each( {
 				handleObj = event.handleObj;
 
 			// For mouseenter/leave call the handler if related is outside the target.
-			// NB: No relatedTarget if the mouse left/entered the browser window
+			// NB: No relatedTarget if the mouse left/entered the browser_for_local_testing window
 			if ( !related || ( related !== target && !jQuery.contains( target, related ) ) ) {
 				event.type = handleObj.origType;
 				ret = handleObj.handler.apply( this, arguments );
@@ -6330,7 +6330,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 		container = document.createElement( "div" ),
 		div = document.createElement( "div" );
 
-	// Finish early in limited (non-browser) environments
+	// Finish early in limited (non-browser_for_local_testing) environments
 	if ( !div.style ) {
 		return;
 	}
@@ -8079,7 +8079,7 @@ jQuery.extend( {
 
 // Support: IE <=11 only
 // Accessing the selectedIndex property
-// forces the browser to respect setting selected
+// forces the browser_for_local_testing to respect setting selected
 // on the option
 // The getter ensures a default option is selected
 // when in an optgroup
@@ -8504,7 +8504,7 @@ var rquery = ( /\?/ );
 
 
 
-// Cross-browser xml parsing
+// Cross-browser_for_local_testing xml parsing
 jQuery.parseXML = function( data ) {
 	var xml, parserErrorElem;
 	if ( !data || typeof data !== "string" ) {
@@ -10704,7 +10704,7 @@ jQuery.noConflict = function( deep ) {
 
 // Expose jQuery and $ identifiers, even in AMD
 // (trac-7102#comment:10, https://github.com/jquery/jquery/pull/557)
-// and CommonJS for browser emulators (trac-13566)
+// and CommonJS for browser_for_local_testing emulators (trac-13566)
 if ( typeof noGlobal === "undefined" ) {
 	window.jQuery = window.$ = jQuery;
 }

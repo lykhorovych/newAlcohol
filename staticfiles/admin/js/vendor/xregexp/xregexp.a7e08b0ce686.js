@@ -454,7 +454,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
  * XRegExp provides augmented, extensible regular expressions. You get additional regex syntax and
  * flags, beyond what browsers support natively. XRegExp is also a regex utility belt with tools to
  * make your client-side grepping simpler and more powerful, while freeing you from related
- * cross-browser inconsistencies.
+ * cross-browser_for_local_testing inconsistencies.
  */
 // ==--------------------------==
 // Private stuff
@@ -1296,8 +1296,8 @@ XRegExp.escape = function (str) {
  * regex uses named capture, named capture properties are included on the match array's `groups`
  * property. Optional `pos` and `sticky` arguments specify the search start position, and whether
  * the match must start at the specified position only. The `lastIndex` property of the provided
- * regex is not used, but is updated for compatibility. Also fixes browser bugs compared to the
- * native `RegExp.prototype.exec` and can be used reliably cross-browser.
+ * regex is not used, but is updated for compatibility. Also fixes browser_for_local_testing bugs compared to the
+ * native `RegExp.prototype.exec` and can be used reliably cross-browser_for_local_testing.
  *
  * @memberOf XRegExp
  * @param {String} str String to search.
@@ -1503,7 +1503,7 @@ XRegExp.isRegExp = function (value) {
  * This is essentially a more convenient re-implementation of `String.prototype.match` that gives
  * the result types you actually want (string instead of `exec`-style array in match-first mode,
  * and an empty array instead of `null` when no matches are found in match-all mode). It also lets
- * you override flag g and ignore `lastIndex`, and fixes browser bugs.
+ * you override flag g and ignore `lastIndex`, and fixes browser_for_local_testing bugs.
  *
  * @memberOf XRegExp
  * @param {String} str String to search.
@@ -1626,8 +1626,8 @@ XRegExp.matchChain = function (str, chain) {
  * or regex, and the replacement can be a string or a function to be called for each match. To
  * perform a global search and replace, use the optional `scope` argument or include flag g if using
  * a regex. Replacement strings can use `$<n>` or `${n}` for named and numbered backreferences.
- * Replacement functions can use named backreferences via the last argument. Also fixes browser bugs
- * compared to the native `String.prototype.replace` and can be used reliably cross-browser.
+ * Replacement functions can use named backreferences via the last argument. Also fixes browser_for_local_testing bugs
+ * compared to the native `String.prototype.replace` and can be used reliably cross-browser_for_local_testing.
  *
  * @memberOf XRegExp
  * @param {String} str String to search.
@@ -1750,8 +1750,8 @@ XRegExp.replaceEach = function (str, replacements) {
  * Splits a string into an array of strings using a regex or string separator. Matches of the
  * separator are not included in the result array. However, if `separator` is a regex that contains
  * capturing groups, backreferences are spliced into the result each time `separator` is matched.
- * Fixes browser bugs compared to the native `String.prototype.split` and can be used reliably
- * cross-browser.
+ * Fixes browser_for_local_testing bugs compared to the native `String.prototype.split` and can be used reliably
+ * cross-browser_for_local_testing.
  *
  * @memberOf XRegExp
  * @param {String} str String to split.
@@ -1781,8 +1781,8 @@ XRegExp.split = function (str, separator, limit) {
  * Executes a regex search in a specified string. Returns `true` or `false`. Optional `pos` and
  * `sticky` arguments specify the search start position, and whether the match must start at the
  * specified position only. The `lastIndex` property of the provided regex is not used, but is
- * updated for compatibility. Also fixes browser bugs compared to the native
- * `RegExp.prototype.test` and can be used reliably cross-browser.
+ * updated for compatibility. Also fixes browser_for_local_testing bugs compared to the native
+ * `RegExp.prototype.test` and can be used reliably cross-browser_for_local_testing.
  *
  * @memberOf XRegExp
  * @param {String} str String to search.
@@ -1924,7 +1924,7 @@ XRegExp.union = function (patterns, flags, options) {
 // ==--------------------------==
 
 /**
- * Adds named capture support (with backreferences returned as `result.name`), and fixes browser
+ * Adds named capture support (with backreferences returned as `result.name`), and fixes browser_for_local_testing
  * bugs in the native `RegExp.prototype.exec`. Use via `XRegExp.exec`.
  *
  * @memberOf RegExp
@@ -1998,7 +1998,7 @@ fixed.exec = function (str) {
   return match;
 };
 /**
- * Fixes browser bugs in the native `RegExp.prototype.test`.
+ * Fixes browser_for_local_testing bugs in the native `RegExp.prototype.test`.
  *
  * @memberOf RegExp
  * @param {String} str String to search.
@@ -2011,7 +2011,7 @@ fixed.test = function (str) {
   return !!fixed.exec.call(this, str);
 };
 /**
- * Adds named capture support (with backreferences returned as `result.name`), and fixes browser
+ * Adds named capture support (with backreferences returned as `result.name`), and fixes browser_for_local_testing
  * bugs in the native `String.prototype.match`.
  *
  * @memberOf String
@@ -2037,7 +2037,7 @@ fixed.match = function (regex) {
 /**
  * Adds support for `${n}` (or `$<n>`) tokens for named and numbered backreferences in replacement
  * text, and provides named backreferences to replacement functions as `arguments[0].name`. Also
- * fixes browser bugs in replacement text syntax when performing a replacement using a nonregex
+ * fixes browser_for_local_testing bugs in replacement text syntax when performing a replacement using a nonregex
  * search value, and the value of a replacement regex's `lastIndex` property during replacement
  * iterations and upon completion. Note that this doesn't support SpiderMonkey's proprietary third
  * (`flags`) argument. Use via `XRegExp.replace`.
@@ -2217,7 +2217,7 @@ fixed.replace = function (search, replacement) {
   return result;
 };
 /**
- * Fixes browser bugs in the native `String.prototype.split`. Use via `XRegExp.split`.
+ * Fixes browser_for_local_testing bugs in the native `String.prototype.split`. Use via `XRegExp.split`.
  *
  * @memberOf String
  * @param {RegExp|String} separator Regex or string to use for separating the string.
@@ -2276,7 +2276,7 @@ fixed.split = function (separator, limit) {
 
 /*
  * Letter escapes that natively match literal characters: `\a`, `\A`, etc. These should be
- * SyntaxErrors but are allowed in web reality. XRegExp makes them errors for cross-browser
+ * SyntaxErrors but are allowed in web reality. XRegExp makes them errors for cross-browser_for_local_testing
  * consistency and to reserve their syntax, but lets them be superseded by addons.
  */
 

@@ -20,6 +20,8 @@ class BasePage:
         ua = UserAgent()
         self.options.add_argument("--user-agent=%s" % ua.random)
         self.options.binary_location = r"/usr/bin/google-chrome"
+        # browser path for local testing
+        # r"/home/olykhorovych/D/courses/project_copy/LykhorovychAlcohol/browser_for_local_testing/chrome-linux/chrome"
         self.options.add_argument("--no-sandbox")
         self.options.add_argument("--disable-dev-shm-usage")
         self.options.add_argument("--disable-notifications")
@@ -58,19 +60,19 @@ class BasePage:
     def create_new_browser(self):
         if self.browser == 'chrome':
             try:
-                print("trying to create chrome browser")
+                print("trying to create chrome browser_for_local_testing")
                 return self.create_regular_driver()
             except (NoSuchWindowException, TimeoutException, StaleElementReferenceException,
                     NoSuchElementException, WebDriverException):
                 pass
-                # print("trying to create undetected chrome browser")
+                # print("trying to create undetected chrome browser_for_local_testing")
                 # time.sleep(10)
                 # return self.create_undetected_driver()
         elif self.browser == 'remote':
-            print("trying to create remote browser")
+            print("trying to create remote browser_for_local_testing")
             return self.create_remote_webdriver()
         else:
-            print("trying to create undetected chrome browser")
+            print("trying to create undetected chrome browser_for_local_testing")
             return self.create_undetected_driver()
 
     def open(self, url):

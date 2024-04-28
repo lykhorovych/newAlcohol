@@ -24,8 +24,8 @@ class ATBPageLocators:
 
 
 class RozetkaLocators:
-    ALCO_LINK = (By.XPATH,
-                 "//a[@class='menu-categories__link'][contains(text(),'Алкогольні напої та продукти')]")
+    ALCO_LINK = (By.CSS_SELECTOR,
+                 "li[class*='ng-star-inserted']>a[href*= 'alkoholnie-napitki-i-produkty']")
     EXPONEA_BANER = (By.CLASS_NAME, "exponea-banner")
     EXPONEA_BANER_CLOSE_BUTTON = (By.CLASS_NAME, 'exponea-close')
     CHECK_AGE_HEADING = (By.CSS_SELECTOR, "h3.modal__heading")

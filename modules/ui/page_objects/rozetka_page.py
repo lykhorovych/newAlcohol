@@ -11,7 +11,6 @@ class RozetkaPage(BasePage):
     def convert_value(value):
         return "".join(value.split(' '))
 
-
     def close_exponea_banner(self):
         banner = self.element_is_visible(RozetkaLocators.EXPONEA_BANER)
         if banner:
