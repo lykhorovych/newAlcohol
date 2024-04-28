@@ -1,7 +1,7 @@
 name: Find alcohol
 on:
    schedule:
-     - cron: '0 10 * * 7'  # if github.event.schedule != '0 18 * * 6'
+     - cron: '30 10 * * 0'  # if github.event.schedule != '0 18 * * 6'
 jobs:
   search_alcohol:
     runs-on:
