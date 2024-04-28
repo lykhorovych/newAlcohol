@@ -11,10 +11,10 @@ from modules.common.product import Product
 from config.config import BASE_DIR
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--browser_for_local_testing',
+parser.add_argument('--browser',
                     choices=['chrome', 'undetected', 'remote'],
                     default='chrome',
-                    help='browser_for_local_testing to use')
+                    help='browser to use')
 args = parser.parse_args()
 print(args)
 
