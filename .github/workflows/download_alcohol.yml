@@ -35,7 +35,7 @@ jobs:
         run: sudo apt-get install google-chrome-stable
 
       - name: start scrapping
-        run: python run.py --browser_for_local_testing undetected
+        run: python run.py --browser undetected
       - name: commit changes
         uses: EndBug/add-and-commit@v9
         with:
