@@ -2,6 +2,7 @@ from modules.ui.page_objects.base_page import BasePage
 from modules.ui.page_objects.locators import RozetkaLocators
 from modules.common.product import Product
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class RozetkaPage(BasePage):
@@ -27,15 +28,21 @@ class RozetkaPage(BasePage):
         return self.title_is_present(title)
 
     def get_alco_links(self):
+        catalog_link = self.element_is_clickable(RozetkaLocators.CATALOG_LINK)
+        if catalog_link.is_enabled():
+            catalog_link.click()
         main_alco_link = self.element_is_clickable(RozetkaLocators.ALCO_LINK)
-        main_alco_link.click()
+        ActionChains(self.driver).move_to_element(main_alco_link).perform()
+        # if main_alco_link.is_enabled():
+            # main_alco_link.click()
 
-        assert self.get_page_title('Алкогольні напої і продукти харчування') is True
+        # assert self.get_page_title('Алкогольні напої і продукти харчування') is True
 
-        self.close_exponea_banner()
+        # self.close_exponea_banner()
 
-        second_alco_link = self.element_is_clickable(RozetkaLocators.ALCO_LINK_2)
-        second_alco_link.click()
+        second_alco_link = self.element_is_clickable(RozetkaLocators.STRONG_DRINKS_LINK)
+        if second_alco_link.is_enabled():
+            second_alco_link.click()
 
         assert self.get_page_title('Міцні напої') is True
 

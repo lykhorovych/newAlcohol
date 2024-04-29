@@ -21,7 +21,7 @@ class BasePage:
         self.options.add_argument("--user-agent=%s" % ua.random)
         self.options.binary_location = r"/usr/bin/google-chrome"
         # browser path for local testing
-        # r"/home/olykhorovych/D/courses/project_copy/LykhorovychAlcohol/browser_for_local_testing/chrome-linux/chrome"
+        # self.options.binary_location = r"/home/olykhorovych/D/courses/project_copy/LykhorovychAlcohol/browser_for_local_testing/chrome-linux/chrome"
         self.options.add_argument("--no-sandbox")
         self.options.add_argument("--disable-dev-shm-usage")
         self.options.add_argument("--disable-notifications")
@@ -151,7 +151,6 @@ class BasePage:
                 return element
             except StaleElementReferenceException:
                 pass
-
 
     def click_on_button(self, element):
         self.driver.execute_script("arguments[0].click()", element)
