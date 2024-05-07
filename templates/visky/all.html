@@ -2,33 +2,38 @@
 {% block content %}
     {% include 'visky/form.html' %}
     {% if q %}
-        <a href="{% url 'all' %}"><h2>Назад</h2></a>
+        <a class='hover:underline' href="{% url 'all' %}"><h2>Назад</h2></a>
         <h4>Результати пошуку за запитом <b style="color: #3875d7">{{ q }}</b></h4>
     {% endif %}
-<table class="table table-sm">
+<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+    <thead class="min-w-full bg-gray-50">
     <tr>
         <th>Назва</th>
         <th>Ціна</th>
         <th>Код</th>
         <th>Характеристики</th>
     </tr>
-    <tbody>
+    </thead>
+    <tbody class="bg-sky-150 divide-y divide-gray-200 dark:divide-gray-700 items-center">
     {% for elem in alcohols %}
-	<tr>
-        <td>
-            <picture><img src="{{elem.image}}" width="150px"
-                 height="300px" loading="lazy"
-                 alt="" class="rounded mx-auto d-block">
-                <h4><a href="{{ elem.product_link }}">{{elem.name}}</a></h4>
+	<tr class=''>
+        <td class="px-4 py-4 text-sm whitespace-nowrap">
+            <a href="{{ elem.product_link }}">
+                <picture><img src="{{elem.image}}" loading="lazy"
+                    alt="Фото відсутнє" class="object-cover w-30 h-100 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0">
+            </a>
+            <h4 class="font-sans">{{elem.name}}</h4>
             </picture>
         </td>
-        <td>{{ elem.prices.0.popitem.1 }}</td>
-        <td>{{ elem.product_code }}</td>
-        <td>
+        <td class="px-4 py-4 text-sm whitespace-nowrap"><p class="font-sans">{{ elem.prices.0.popitem.1 }}</p></td>
+        <td class="px-4 py-4 text-sm whitespace-nowrap"><p class="font-sans">{{ elem.product_code }}</p></td>
+        <td class="px-4 py-4 text-left whitespace-nowrap">
             <ul>
+                <p class="font-sans">
                 {% for characteristic in elem.description %}
                     <li>{{characteristic.0}}: {{ characteristic.1 }}</li>
                     {% endfor %}
+                </p>
             </ul>
         </td>
     </tr>
@@ -43,7 +48,7 @@
                 el.innerText="Немає опису даного товару"
             }
 
-        })modules/ui/page_objects/rozetka_page.py
+        })
     })
 </script>
 
