@@ -28,9 +28,14 @@ SECRET_KEY = os.getenv('SECRET_KEY',
                             default='django-insecure')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.getenv('DEBUG', default=True))
+DEBUG = int(os.getenv('DEBUG', default=False))
 
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS').split(" ")
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+    'localhost:8084'
+]
 
 # Application definition
 
@@ -41,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
     'visky',
 ]
 
@@ -136,14 +142,14 @@ USE_TZ = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-STATIC_URL = 'static/'
-
+STATIC_URL = 'static/'  # URL to use when referring to static files located in STATIC_ROOT. приховує абсолютну адресу до папки де розміщені статичні файли
+                        # в даному випадку до папки staticfiles
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
+    os.path.join(BASE_DIR, "static")  # папки де можуть бути розміщені статичні файли. Наприклад якщо в app є папаки з статичними файлами
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # folder where command > manage.py collectstatic will be collect static files
+print(STATIC_ROOT)
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
