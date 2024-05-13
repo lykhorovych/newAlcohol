@@ -1,10 +1,9 @@
 from django.urls import path
 
-from .views import SearchAlcoholView, AlcoholListView, DetailAlco
+from .views import DetailAlco, index
 
 
 urlpatterns = [
-    path('', AlcoholListView.as_view(), name='all'),
+    path('', index, name='index'),
     path('<int:pk>', DetailAlco.as_view(), name="detail"),
-    path('search/', SearchAlcoholView.as_view(), name='search')
 ]
