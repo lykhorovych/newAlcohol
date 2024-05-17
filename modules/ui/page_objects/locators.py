@@ -30,7 +30,7 @@ class RozetkaLocators:
     STRONG_DRINKS_LINK = (By.XPATH, "//a[text()='Міцні напої']")
     EXPONEA_BANER = (By.CLASS_NAME, "exponea-banner")
     EXPONEA_BANER_CLOSE_BUTTON = (By.CLASS_NAME, 'exponea-close')
-    CHECK_AGE_HEADING = (By.CSS_SELECTOR, "h3.modal__heading")
+    CHECK_AGE_HEADING = (By.XPATH, "//h2[text()='Підтвердіть свій вік']")
     CHECK_AGE_CLOSE_BUTTON = (By.CSS_SELECTOR, "input[value='Так']")
     ALCO_LINK_2 = (By.CSS_SELECTOR,
                    "a[href*='krepkie-napitki']")
