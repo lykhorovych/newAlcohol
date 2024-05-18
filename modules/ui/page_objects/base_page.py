@@ -11,21 +11,22 @@ from fake_useragent import UserAgent
 class BasePage:
 
     def __init__(self, browser=None, headless=None) -> None:
-        self.options = webdriver.ChromeOptions()
-        self.driver = self.create_new_browser(browser, headless)
-
-    def create_regular_driver(self, headless):
-        print("Creating regular driver")
         ua = UserAgent()
-        self.options.add_argument("--user-agent=%s" % ua.random)
-        self.options.binary_location = r"/usr/bin/google-chrome"
+        options = uc.ChromeOptions()
+        options.add_argument("--user-agent=%s" % ua.random)
+        options.binary_location = r"/usr/bin/google-chrome"
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-notifications")
+        if headless:
+            options.add_argument("--headless=new")
+        self.options = options
+        self.driver = self.create_new_browser(browser)
+
+    def create_regular_driver(self):
+        print("Creating regular driver")
         # browser path for local testing
         # self.options.binary_location = r"/home/olykhorovych/D/courses/project_copy/LykhorovychAlcohol/browser_for_local_testing/chrome-linux/chrome"
-        self.options.add_argument("--no-sandbox")
-        self.options.add_argument("--disable-dev-shm-usage")
-        self.options.add_argument("--disable-notifications")
-        if headless:
-            self.options.add_argument("--headless=new")
         driver = webdriver.Chrome(options=self.options)
         driver.maximize_window()
         return driver
@@ -38,30 +39,24 @@ class BasePage:
                                   )
         return driver
 
-    def create_undetected_driver(self, headless):
+    def create_undetected_driver(self):
         print("Creating undetected driver")
-        ua = UserAgent()
-        options = uc.ChromeOptions()
-        options.add_argument("--user-agent=%s" % ua.random)
-        options.add_argument("--disable-notifications")
-        if headless:
-            options.add_argument("--headless=new")
         print(binary_path)
         driver = uc.Chrome(
                            driver_executable_path=binary_path,
                            use_subprocess=False,
-                           options=options,
-                           headless=True if headless else False
+                           options=self.options,
+                           #headless=True if headless else False
         )
         print(driver.options.binary_location)
         driver.maximize_window()
         return driver
 
-    def create_new_browser(self, browser, headless):
+    def create_new_browser(self, browser):
         if browser == 'chrome':
             try:
                 print("trying to create chrome browser_for_local_testing")
-                return self.create_regular_driver(headless=headless)
+                return self.create_regular_driver()
             except (NoSuchWindowException, TimeoutException, StaleElementReferenceException,
                     NoSuchElementException, WebDriverException):
                 pass
@@ -73,7 +68,7 @@ class BasePage:
             return self.create_remote_webdriver()
         else:
             print("trying to create undetected chrome browser_for_local_testing")
-            return self.create_undetected_driver(headless=headless)
+            return self.create_undetected_driver()
 
     def open(self, url):
         return self.driver.get(url)
