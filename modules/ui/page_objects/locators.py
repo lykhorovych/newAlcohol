@@ -40,8 +40,8 @@ class RozetkaLocators:
     ALCO_TYPES = (By.CSS_SELECTOR, "a.goods-tile__picture")
 
     # CURRENT PRODUCT LOCATORS
-    ALCOHOL_NAME = (By.CSS_SELECTOR, 'h1.product__title-left')
+    ALCOHOL_NAME = (By.CSS_SELECTOR, '.title>h1.h2')
     ALCOHOL_PRICE = (By.CSS_SELECTOR, 'p.product-price__big')
     ALCOHOL_IMAGE_URL = (By.XPATH, '. //li[2]//rz-gallery-main-content-image[1]//img[1]')
-    CHARACTERISTIC_VALUES = (By.CLASS_NAME, 'characteristics-full__list')
-    ALCOHOL_CODE = (By.XPATH, "//div[@class='product__heading-wrapper']//span[@class='product__code-accent']")
+    CHARACTERISTIC_VALUES = (By.CSS_SELECTOR, 'dl.list>div.item')
+    ALCOHOL_CODE = (By.XPATH, "//*[@id='#scrollArea']/div[1]/div[2]/div/rz-title-block/div/div[2]/span")

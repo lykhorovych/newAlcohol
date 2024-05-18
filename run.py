@@ -23,7 +23,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'data/db.sqlite3',
     }
 }
-if 'DATABASE_URL' in os.environ:
+
+
+if 'DATABASE_URL' in os.environ and not int(os.getenv('DEBUG')):
     DATABASES['default'] = dj_database_url.config(
         conn_max_age=500,
         conn_health_checks=True,

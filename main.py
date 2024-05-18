@@ -15,12 +15,18 @@ parser.add_argument('--browser',
                     choices=['chrome', 'undetected', 'remote'],
                     default='chrome',
                     help='browser to use')
+
+parser.add_argument('--headless',
+                    choices=['true', 'false'],
+                    default='false',
+                    help='headless mode')
+
 args = parser.parse_args()
-print(args)
 
 
 def get_list_of_alcohols():
-    page = ATBPage(browser=args.browser)
+    page = ATBPage(browser=args.browser,
+                   headless=True if args.headless == 'true' else False)
     page.open(url=page.URL)
 
     try:
@@ -45,7 +51,8 @@ def get_list_of_alcohols():
 
 
 def get_list_of_alcohol_in_rozetka():
-    page = RozetkaPage(browser=args.browser)
+    page = RozetkaPage(browser=args.browser,
+                       headless=True if args.headless=='true' else False)
     page.open(page.URL)
     # page.switch_to_handle()
 
