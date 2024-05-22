@@ -1,25 +1,27 @@
-from typing import Any
 from django.shortcuts import render
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
 from .models import Alcohol
 from .forms import AlcoForm
+from django.core.paginator import Paginator
 # Create your views here.
 
 
-class AlcoholListView(ListView):
-    model = Alcohol
-    template_name = 'visky/all.html'
-    #context_object_name = 'alcohols'
+def index(request):
+    form = AlcoForm()
+    q = request.GET.get('q')
+    data = Alcohol.objects.filter(name__icontains=q) if q else Alcohol.objects.all()
+    paginator = Paginator(data, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
-    def get_queryset(self):
-        return Alcohol.objects.all()
-    
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        form = AlcoForm()
-        return {
-            'form': form,
-            'alcohols': self.get_queryset()
-        }
+    if request.headers.get('HX-Request') == 'true':
+
+        return render(request, 'visky/alcohol_list.html', {'page_obj': page_obj, 'q': q})
+
+    return render(request, 'visky/index.html', {'page_obj': page_obj, 
+                                                'form': form})
 
 
 class DetailAlco(DetailView):
@@ -27,18 +29,3 @@ class DetailAlco(DetailView):
     template_name = "visky/detail.html"
     context_object_name = "alcohol"
 
-
-class SearchAlcoholView(ListView):
-    template_name = 'visky/all.html'
-    #context_object_name = 'alcohols'
-
-    def get_queryset(self):
-        q = self.request.GET.get('q')
-        alcohols = Alcohol.objects.filter(name__contains=q.title()).all()
-        return alcohols
-
-    def get_context_data(self, **kwargs):
-        return {'alcohols': self.get_queryset(),
-                'q': self.request.GET.get('q'),
-                'form': AlcoForm(),
-                }

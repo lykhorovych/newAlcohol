@@ -1,0 +1,67 @@
+<div class="overflow-x-auto ml-8 mr-8">
+<table class="table">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Ціна</th>
+            <th>Код</th>
+            <th>Характеристики</th>
+        </tr>
+    </thead>
+    <tbody class="items-center">
+    {% for elem in page_obj %}
+    <tr class=''>
+        <td>
+            <div class="flex items-center gap-3>
+                <div class="avatar">
+                    <div class="mask mask-squircle">
+                        <a href="{{ elem.product_link }}">
+                            <img src="{{elem.image}}" loading="lazy" alt="Фото відсутнє">
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <div class="font-bold font-black text-justify">
+                        {{elem.name}}
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td class="">
+            <div class="font-bold font-black text-justify">
+                {{ elem.prices.0.popitem.1 }}
+            </div>
+        </td>
+        <td>
+            <div class="font-bold font-black text-justify">
+                {{ elem.product_code }}
+            </div>
+        </td>
+        <td>
+            <ul>
+                <div>
+                    {% for characteristic in elem.description %}
+                        <div class="font-bold font-black text-justify">
+                            <li>{{characteristic.0}}: {{ characteristic.1 }}</li>
+                        </div>
+                    {% endfor %}
+                </div>
+            </ul>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div id="pagination" class="flex items-center text-gray-600 ml-8 mt-8">
+    {% if page_obj.has_previous %}
+        <button hx-get="{% url 'index' %}?q={{ q }}&page=1" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#alcohols">First</button>
+        <button hx-get="{% url 'index' %}?q={{ q }}&page={{ page_obj.previous_page_number }}" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#alcohols">Previous</button>
+    {% endif %}
+    {% if page_obj.has_next %}
+        <button hx-get="{% url 'index' %}?q={{ q }}&page={{ page_obj.next_page_number }}" hx-swap="innerHTML" hx-target="#alcohols" class="px-4 py-2 rounded hover:bg-black-100">Next</button>
+        <button hx-get="{% url 'index' %}?q={{ q }}&page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#alcohols">Last</button>
+    {% endif %}
+</div>
+
