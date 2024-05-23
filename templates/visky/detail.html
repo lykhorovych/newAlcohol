@@ -8,17 +8,17 @@
         <th>Ціна</th>
         <th>Код</th>
         <th>Характеристики</th>
+        <th>Динаміка цін</th>
     </tr>
     </thead>
     <tbody class="bg-sky-150 divide-gray-200 dark:divide-gray-700">
 	<tr class=''>
         <td class="px-4 py-4 text-sm whitespace-nowrap">
             <a href="{{ alcohol.product_link }}">
-                <picture><img src="{{alcohol.image}}" loading="lazy"
+                <img src="{{alcohol.image}}" loading="lazy"
                     alt="Фото відсутнє" class="object-cover w-30 h-100 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0">
             </a>
             <h4 class="font-sans">{{alcohol.name}}</h4>
-            </picture>
         </td>
         <td class="px-4 py-4 text-sm whitespace-nowrap"><p class="font-sans">{{ alcohol.prices.0.popitem.1 }}</p></td>
         <td class="px-4 py-4 text-sm whitespace-nowrap"><p class="font-sans">{{ alcohol.product_code }}</p></td>
@@ -31,10 +31,11 @@
                 </p>
             </ul>
         </td>
+        <td>
+            <img src="data:image/png;base64,{{ fig }}" alt="">
+        </td>
     </tr>
     </tbody>
 </table>
-
-
 
 {% endblock content %}
