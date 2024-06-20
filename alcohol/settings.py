@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'visky',
+    'products',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -149,7 +151,7 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # folder where command > manage.py collectstatic will be collect static files
-print(STATIC_ROOT)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

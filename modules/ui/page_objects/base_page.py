@@ -3,6 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (NoSuchWindowException, TimeoutException,
                                         StaleElementReferenceException, NoSuchElementException, WebDriverException)
+from selenium.webdriver.common.action_chains import ActionChains
 from chromedriver_py import binary_path
 import undetected_chromedriver as uc
 from fake_useragent import UserAgent
@@ -182,3 +183,7 @@ class BasePage:
 
     def wait_load_page_after_refresh(self):
         self.driver.execute_script("window.onload= () => {log.console('DOM loaded')};")
+
+
+    def move_to_elem(self, elem):
+        ActionChains(self.driver).move_to_element(elem).click_and_hold(elem).perform()
