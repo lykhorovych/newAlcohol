@@ -1,0 +1,86 @@
+{% load product_tags %}
+{% load static %}
+<div class="overflow-x-auto ml-8 mr-8">
+<table class="table">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Рейтинг</th>
+            <th>Знижка</th>
+            <th>Ціна ,без знижки</th>
+            <th>Ціна зі знижкою</th>
+            <th>Закінчується</th>
+            <th>відсутній</th>
+        </tr>
+    </thead>
+    <tbody class="items-center">
+    {% for product in products %}
+    <tr class=''>
+        <td>
+            <div class="flex items-center gap-3>
+                <div class="avatar">
+                    <div class="mask mask-squircle">
+                        <a href="{{ product.link }}">
+                            <img src="{{ product.image|abs_path }}" loading="lazy" alt="Фото відсутнє">
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <div class="font-bold font-black text-justify">
+                        {{product.name}}
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td class="">
+            <div class="font-bold font-black text-justify">
+                {{ product.rating}}
+            </div>
+        </td>
+        <td class="">
+            <div class="font-bold font-black text-justify">
+                {{ product.discount}}
+            </div>
+        </td>
+
+        <td class="">
+            <div class="font-bold font-black text-justify">
+                {{ product.price_top}}
+            </div>
+        </td>
+        <td class="">
+            <div class="font-bold font-black text-justify">
+                {{ product.price_bottom}}
+            </div>
+        </td>
+        <td>
+            <div class="font-bold font-black text-justify">
+                {% if product.is_available %}
+                Закінчується
+                {% endif %}
+            </div>
+        </td>
+        <td>
+            <div class="font-bold font-black text-justify">
+                {% if product.is_ends%}
+                Закінчився
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<div id="pagination" class="flex items-center text-gray-600 ml-8 mt-8">
+    {% if page_obj.has_previous %}
+        <button hx-get="{% url 'index' %}?q={{ q }}&page=1" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#alcohols">First</button>
+        <button hx-get="{% url 'index' %}?q={{ q }}&page={{ page_obj.previous_page_number }}" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#alcohols">Previous</button>
+    {% endif %}
+    {% if page_obj.has_next %}
+        <button hx-get="{% url 'index' %}?q={{ q }}&page={{ page_obj.next_page_number }}" hx-swap="innerHTML" hx-target="#alcohols" class="px-4 py-2 rounded hover:bg-black-100">Next</button>
+        <button hx-get="{% url 'index' %}?q={{ q }}&page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#alcohols">Last</button>
+    {% endif %}
+</div>
+

@@ -1,0 +1,49 @@
+{% extends "../base.html" %}
+{% block content %}
+    {% comment %}{% include 'visky/form.html' %}
+    {% if q %}
+        <a class='hover:underline' href="{% url 'index' %}"><h2>Назад</h2></a>
+        <h4>Результати пошуку за запитом <b style="color: #3875d7">{{ q }}</b></h4>
+    {% endif %}{% endcomment %}
+
+   {% comment %}
+     <div id='loading'>
+     <span class="loading loading-spinner text-primary"></span>
+     <span class="loading loading-spinner text-secondary"></span>
+     <span class="loading loading-spinner text-accent"></span>
+     <span class="loading loading-spinner text-neutral"></span>
+     <span class="loading loading-spinner text-info"></span>
+     <span class="loading loading-spinner text-success"></span>
+     <span class="loading loading-spinner text-warning"></span>
+     <span class="loading loading-spinner text-error"></span>
+     </div>
+   {% endcomment %}
+
+    <div id="alcohols" class="overflow-x-auto">
+      
+        {% include './product_list.html' %}
+    </div>
+    
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const l = document.querySelectorAll('li')
+        l.forEach(el => {
+            if (el.innerText==='None: None') {
+                el.innerText="Немає опису даного товару"}
+                        }
+                )
+            }
+    )
+    document.addEventListener('DOMContentLoaded', () => {
+        const l = document.querySelectorAll('li')
+        l.forEach(el => {
+            if (el.innerText==='') {
+                el.innerText="Немає опису даного товару"}
+                        }
+                )
+            }
+    )
+</script>
+
+{% endblock %}

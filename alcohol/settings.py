@@ -102,7 +102,7 @@ DATABASES = {
     }
 }
 
-if 'DATABASE_URL' in os.environ:
+if 'DATABASE_URL' in os.environ and not DEBUG:
     DATABASES['default'] = dj_database_url.config(
         conn_max_age=500,
         conn_health_checks=True,
