@@ -1,27 +1,14 @@
 import os.path
 import json
 import requests
-import argparse
 
 from selenium.common.exceptions import NoSuchWindowException, TimeoutException, JavascriptException
 from urllib3.exceptions import MaxRetryError, NewConnectionError
 from modules.ui.page_objects.atb_page import ATBPage
 from modules.ui.page_objects.rozetka_page import RozetkaPage
 from modules.common.product import Product
+from modules.common.parsers.parser import args
 from config.config import BASE_DIR
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--browser',
-                    choices=['chrome', 'undetected', 'remote'],
-                    default='chrome',
-                    help='browser to use')
-
-parser.add_argument('--headless',
-                    choices=['true', 'false'],
-                    default='false',
-                    help='headless mode')
-
-args = parser.parse_args()
 
 
 def get_list_of_alcohols():

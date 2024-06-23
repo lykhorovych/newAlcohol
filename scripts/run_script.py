@@ -2,10 +2,15 @@ from selenium.webdriver.common.by import By
 from modules.ui.page_objects.actions.all_actions_page import ATBAllActionsPage
 from products.models import Product
 import time
+import subprocess
 
-def run():
 
-	atb_page = ATBAllActionsPage()
+def run(*args):
+
+	atb_page = ATBAllActionsPage(
+								browser = 'undetected' if 'undetected' in args else 'chrome',
+        						headless = True if 'headless' in args else False
+								)
 
 	atb_page.open("https://www.atbmarket.com/promo/economy")
 
@@ -57,16 +62,24 @@ def run():
 								'is_available': available,
 								'is_ends': ends,
 								}
-				product, is_exists = Product.objects.update_or_create(name = desc,
+				product, is_created = Product.objects.update_or_create(name = desc,
 																		defaults={
+																			'rating': rating,
+																			'discount': discount,
+																			'image': img,
+																			'link': prod,
+																			'price_top': price_top,
+																			'price_bottom': price_bottom,
 																			'is_available': available,
 																			'is_ends': ends,
 																			},
 																		create_defaults=credentials)
-				if not is_exists:
+				if not is_created:
 					product.price_statistic.append((time.strftime("%Y/%m/%d", time.localtime()), price_top))
 					product.save()
 					print(product)
+				else:
+					subprocess.run(["wget", "-b", f"{img}", "-P", r"../static/images"])
 
 			pages = atb_page.get_all_pages()
 			pages[idx + 1].click()

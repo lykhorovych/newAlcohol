@@ -23,6 +23,9 @@ class Product(models.Model):
     is_ends = models.BooleanField(default=False)
     #category = models.ManyToManyField(Category)
 
+    class Meta:
+        ordering = ['-rating', 'price_top']
+        
     def __str__(self) -> str:
         return f"{self.name}"
     
