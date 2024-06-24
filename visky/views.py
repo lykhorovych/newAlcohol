@@ -43,7 +43,7 @@ class DetailAlco(DetailView):
         dates = [k for d in alcohol.prices for k in d]
         prices = [k for d in alcohol.prices for k in d.values()]
 
-        fig = go.Figure([go.Scatter(x=dates, y=prices)])
+        fig = go.Figure([go.Scatter(x=dates[::-1], y=prices[::-1])])
         fig = fig.to_image(format='png')
 
         context['alcohol'] = alcohol
