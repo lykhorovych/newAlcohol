@@ -1,5 +1,4 @@
 {% load product_tags %}
-{% load static %}
 <div class="overflow-x-auto ml-8 mr-8">
 <table class="table">
     <thead>
@@ -75,12 +74,12 @@
 
 <div id="pagination" class="flex items-center text-gray-600 ml-8 mt-8">
     {% if page_obj.has_previous %}
-        <button hx-get="{% url 'index' %}?q={{ q }}&page=1" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#alcohols">First</button>
-        <button hx-get="{% url 'index' %}?q={{ q }}&page={{ page_obj.previous_page_number }}" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#alcohols">Previous</button>
+        <button hx-get="{% url 'product_list' %}?page=1" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#products">First</button>
+        <button hx-get="{% url 'product_list' %}?page={{ page_obj.previous_page_number }}" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#products">Previous</button>
     {% endif %}
     {% if page_obj.has_next %}
-        <button hx-get="{% url 'index' %}?q={{ q }}&page={{ page_obj.next_page_number }}" hx-swap="innerHTML" hx-target="#alcohols" class="px-4 py-2 rounded hover:bg-black-100">Next</button>
-        <button hx-get="{% url 'index' %}?q={{ q }}&page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#alcohols">Last</button>
+        <button hx-get="{% url 'product_list' %}?page={{ page_obj.next_page_number }}" hx-swap="innerHTML" hx-target="#products" class="px-4 py-2 rounded hover:bg-black-100">Next</button>
+        <button hx-get="{% url 'product_list' %}?page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 rounded hover:bg-black-100" hx-swap="innerHTML" hx-target="#products">Last</button>
     {% endif %}
 </div>
 

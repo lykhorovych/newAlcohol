@@ -1,4 +1,5 @@
 {% extends "../base.html" %}
+{% block header %} List of products {% endblock header %}
 {% block content %}
     {% comment %}{% include 'visky/form.html' %}
     {% if q %}
@@ -19,7 +20,7 @@
      </div>
    {% endcomment %}
 
-    <div id="alcohols" class="overflow-x-auto">
+    <div id="products" class="overflow-x-auto">
       
         {% include './product_list.html' %}
     </div>
