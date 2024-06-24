@@ -13,3 +13,4 @@ undetected-chromedriver==3.5.5
 webdriver-manager==4.0.1
 wget==3.2
 whitenoise==6.6.0
+plotly
