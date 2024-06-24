@@ -1,10 +1,9 @@
 from typing import Any
-from django.db.models.query import QuerySet
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
 from .models import Product
 from django.views.generic import ListView
-from django.core.paginator import Paginator
+
 # Create your views here.
 
 
