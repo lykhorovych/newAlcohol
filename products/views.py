@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
 from .models import Product
@@ -12,6 +13,11 @@ class EconomyListView(ListView):
     template_name = "products/index.html"
     context_object_name = "products"
     paginate_by = 10
+
+    def get_queryset(self) -> QuerySet[Any]:
+        products = super().get_queryset()
+
+        return products.filter(in_economy=True)
 
     def render_to_response(self, context: dict[str, Any], **response_kwargs: Any) -> HttpResponse:
         if self.request.headers.get('HX-Request') == 'true':

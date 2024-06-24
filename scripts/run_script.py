@@ -6,6 +6,7 @@ import subprocess
 
 
 def run(*args):
+	Product.objects.update(in_economy=False)
 
 	atb_page = ATBAllActionsPage(
 								browser = 'undetected' if 'undetected' in args else 'chrome',
@@ -59,6 +60,7 @@ def run(*args):
 								'price_top': price_top,
 								'price_bottom': price_bottom,
 								'price_statistic': [(time.strftime("%Y/%m/%d", time.localtime()), price_top)],
+								'in_economy': True,
 								'is_available': available,
 								'is_ends': ends,
 								}
@@ -70,6 +72,7 @@ def run(*args):
 																			'link': prod,
 																			'price_top': price_top,
 																			'price_bottom': price_bottom,
+																			'in_economy': True,
 																			'is_available': available,
 																			'is_ends': ends,
 																			},
