@@ -6,6 +6,7 @@
             <th>Ціна</th>
             <th>Код</th>
             <th>Характеристики</th>
+            <th>Детально</th>
         </tr>
     </thead>
     <tbody class="items-center">
@@ -47,6 +48,13 @@
                     {% endfor %}
                 </div>
             </ul>
+        </td>
+        <td>
+        <button class="px-4 py-2 rounded hover:bg-black-100">
+            <a href="{% url 'detail' elem.id %}">
+                >>
+            </a>
+        </button>    
         </td>
     </tr>
     {% endfor %}
