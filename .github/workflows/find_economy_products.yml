@@ -20,9 +20,23 @@ jobs:
       - name: start scrapping
         run: |
              python manage.py runscript run_script --script-args undetected headless
-      - name: commit changes
+      - name: commit changes  
         uses: EndBug/add-and-commit@v9
         with:
+            add: '/static/images'
             github_token: ${{ secrets.Qauto }}
             author_name: oleh lykhorovych
-            message: 'add products with economy $(date)'
+            message: 'add downloaded images'
+      - name: collect static files
+        run: |
+              python manage.py collectstatic --noinput --clear
+      - name: commit collectioned static files   
+        uses: EndBug/add-and-commit@v9           
+        with:
+            add: '/staticfiles/'
+            github_token: ${{ secrets.Qauto }}
+            author_name: oleh lykhorovych
+            message: 'add downloaded images'
+        
+      
+
