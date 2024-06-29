@@ -1,18 +1,18 @@
 import subprocess
 from products.models import Product
 from visky.models import Alcohol
-from alcohol.settings import BASE_DIR
+from django.conf import settings
+
 
 def run():
-    for product in Product.objects.all():
+    for link, *_ in Product.objects.values_list('image'):
         subprocess.run(["wget",
-                        "-b", f"{product.image}", 
-                        "-P", BASE_DIR / "static/images/economy"])
+                        "-b", f"{link}",
+                        "-P", settings.STATICFILES_DIRS[0] + "/images/economy"])
 
-    #for alcohol in Alcohol.objects.values_list('image'):
-    #    link, *_ = alcohol
-    #    subprocess.run(["wget",
-    #                     "-b", f"{link}",
-    #                     "-P", BASE_DIR / "static/images/visky"])
+    for link, *_ in Alcohol.objects.values_list('image'):
+        subprocess.run(["wget",
+                        "-b", f"{link}",
+                        "-P", settings.STATICFILES_DIRS[0] + "/images/alcohol"])
 
     return 1

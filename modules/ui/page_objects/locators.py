@@ -21,6 +21,7 @@ class ATBPageLocators:
     PRODUCT_PRICE = (By.CSS_SELECTOR, ".product-about__price .product-price__top")
     CHARACTERISTICS_VALUES = (By.CSS_SELECTOR,
                               ".product-characteristics__row .product-characteristics__info")
+    AVAILABLE_TEXT = (By.CLASS_NAME, 'available-tag__text')
 
 
 class RozetkaLocators:

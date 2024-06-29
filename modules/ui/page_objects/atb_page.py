@@ -48,6 +48,7 @@ class ATBPage(BasePage):
             alcohol_link = self.driver.current_url
             product_code = self.element_is_present(ATBPageLocators.PRODUCT_CODE).text
             characteristic = list(zip(characteristic[::2], characteristic[1::2]))
+            is_available = self.element_is_present(ATBPageLocators.AVAILABLE_TEXT).text
             product = Product(id=id, name=title, price=float(price),
                               img=img_link, link=alcohol_link, code=int(product_code),
                               characteristic=characteristic)
