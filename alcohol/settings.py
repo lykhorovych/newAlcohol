@@ -148,7 +148,7 @@ STATIC_URL = 'static/'  # URL to use when referring to static files located in S
                         # в даному випадку до папки staticfiles
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")  # папки де можуть бути розміщені статичні файли. Наприклад якщо в app є папаки з статичними файлами
-]
+                    ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # folder where command > manage.py collectstatic will be collect static files
 
