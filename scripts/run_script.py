@@ -82,7 +82,9 @@ def run(*args):
 					product.save()
 					print(product)
 				else:
-					subprocess.run(["wget", "-b", f"{img}", "-P", r"../static/images"])
+					subprocess.run(["wget", 
+					 				"-b", f"{img}", 
+									"-P", r"/../static/images/economy"])
 
 			pages = atb_page.get_all_pages()
 			pages[idx + 1].click()
