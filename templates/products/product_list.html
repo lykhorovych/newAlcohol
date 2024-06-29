@@ -1,4 +1,5 @@
 {% load product_tags %}
+{% load static %}
 <div class="overflow-x-auto ml-8 mr-8">
 <table class="table">
     <thead>
@@ -20,7 +21,9 @@
                 <div class="avatar">
                     <div class="mask mask-squircle">
                         <a href="{{ product.link }}">
-                            <img src="{{ product.image|abs_path }}" loading="lazy" alt="Фото відсутнє">
+                            {% with path=product.image|abs_path %}
+                            <img src="{{path}}" load="lazy" alt="Фото відсутнє"/>
+                            {% endwith %}
                         </a>
                     </div>
                 </div>
