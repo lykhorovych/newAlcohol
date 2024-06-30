@@ -21,8 +21,8 @@
                 <div class="avatar">
                     <div class="mask mask-squircle">
                         <a href="{{ product.link }}">
-                            {% with path=product.image|abs_path %}
-                            <img src="{{path}}" load="lazy" alt="Фото відсутнє"/>
+                            {% with static_path=product.image|static_path %} 
+                            <img src="{{static_path}}" loading="lazy" alt="Фото відсутнє">
                             {% endwith %}
                         </a>
                     </div>
