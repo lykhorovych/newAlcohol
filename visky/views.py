@@ -2,6 +2,8 @@ import io
 import urllib, base64
 from typing import Any
 import urllib.parse
+
+from django.db.models import Min
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -18,7 +20,7 @@ def index(request):
     form = AlcoForm()
     q = request.GET.get('q')
     data = Alcohol.objects.filter(name__icontains=q) if q else Alcohol.objects.all()
-    paginator = Paginator(data, 10)
+    paginator = Paginator(data.annotate(min_price=Min('prices')).order_by('min_price'), 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
