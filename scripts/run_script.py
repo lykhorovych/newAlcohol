@@ -1,9 +1,12 @@
-from selenium.webdriver.common.by import By
-from modules.ui.page_objects.actions.all_actions_page import ATBAllActionsPage
-from products.models import Product
 import time
 import subprocess
+import os.path
 
+from selenium.webdriver.common.by import By
+from django.conf import settings
+
+from modules.ui.page_objects.actions.all_actions_page import ATBAllActionsPage
+from products.models import Product
 
 def run(*args):
 	Product.objects.update(in_economy=False)
@@ -82,9 +85,12 @@ def run(*args):
 					product.save()
 					print(product)
 				else:
-					subprocess.run(["wget", 
+					print("photo is exists  ", img)
+					if not os.path.exists(os.path.join(settings.STATICFILES_DIRS[0], img.split("/")[-1])):
+						subprocess.run(["wget", 
 					 				"-b", f"{img}", 
-									"-P", r"/../static/images/economy"])
+									"-P", r"/static/"])
+						print("photo is not exists  ", img)
 
 			pages = atb_page.get_all_pages()
 			pages[idx + 1].click()
