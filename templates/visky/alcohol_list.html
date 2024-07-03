@@ -15,9 +15,9 @@
     {% for elem in page_obj %}
     <tr class=''>
         <td>
-            <div class="flex items-center gap-3>
+            <div class="flex items-start gap-3>
                 <div class="avatar">
-                    <div class="mask mask-squircle">
+                    <div class="rounded-full w-64">
                         <a href="{{ elem.product_link }}">
                             <img src="{{elem.image|static_path}}" loading="lazy" alt="Фото відсутнє">
                         </a>
