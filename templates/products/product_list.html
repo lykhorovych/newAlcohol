@@ -1,6 +1,6 @@
 {% load product_tags %}
 {% load static %}
-<div class="overflow-x-auto ml-8 mr-8">
+<div class="overflow-x-auto ml-8 mr-8 mt-8 pt-16">
 <table class="hover:table-auto">
     <thead>
         <tr>
@@ -21,7 +21,7 @@
                 <div class="avatar">
                     <div class="mask mask-hexagon w-64">
                         <a href="{{ product.link }}">
-                            {% with static_path=product.image|static_path %} 
+                            {% with static_path=product.image|static_path %}
                             <img src="{{static_path}}" loading="lazy" alt="Фото відсутнє">
                             {% endwith %}
                         </a>
@@ -38,6 +38,15 @@
             <div class="font-bold font-black text-justify">
                 {{ product.rating}}
             </div>
+            <div class="rating">
+                <input type="radio" name="rating-2" class="rating-hidden" />
+                <label for="rating-2"></label>
+                <input type="radio" name="rating-2" class="mask mask-star-2" />
+                <input type="radio" name="rating-2" class="mask mask-star-2" checked="checked" />
+                <input type="radio" name="rating-2" class="mask mask-star-2" />
+                <input type="radio" name="rating-2" class="mask mask-star-2" />
+                <input type="radio" name="rating-2" class="mask mask-star-2" />
+              </div>
         </td>
         <td class="">
             <div class="font-bold font-black text-justify">
@@ -86,3 +95,17 @@
     {% endif %}
 </div>
 
+<script>
+{% if debug %}
+    if (typeof window.htmx !== "undefined") {
+        htmx.on("htmx:afterSettle", function(detail) {
+            if (
+                typeof window.djdt !== "undefined"
+                && detail.target instanceof HTMLBodyElement
+            ) {
+                djdt.show_toolbar();
+            }
+        });
+    }
+{% endif %}
+</script>
