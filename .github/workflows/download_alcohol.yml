@@ -16,12 +16,14 @@ on:
 #  push:
 #    branches:
 #      - "main"
-
+  push:
+    branches:
+      - main
 jobs:
   scrap_alcohol:
     runs-on:
       ubuntu-latest
-    if: inputs.alco == 'find' #|| github.event.schedule == '0 16 * * 0'
+    if: inputs.alco == 'find' || github.event == 'push'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
