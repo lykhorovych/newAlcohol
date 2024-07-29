@@ -13,12 +13,10 @@ on:
           - lint
 #  schedule:
 #    - cron: '0 23 * * 0'
-#  push:
-#    branches:
-#      - "main"
   push:
     branches:
-      - main
+      - "main"
+
 jobs:
   scrap_alcohol:
     runs-on:
@@ -42,7 +40,7 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           github_token: ${{ secrets.Qauto }}
-          add: 'data'
+          #add: 'data'
           author_name: oleh lykhorovych
           message: 'add new alcohol'
 
