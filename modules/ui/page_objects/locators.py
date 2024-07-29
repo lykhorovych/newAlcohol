@@ -36,8 +36,8 @@ class RozetkaLocators:
     ALCO_LINK_2 = (By.CSS_SELECTOR,
                    "a[href*='krepkie-napitki']")
     FILTER_BUTTON = (By.CSS_SELECTOR, 'button[class*="catalog-settings__filter-button"]')
-    FREE_DELIVERY_BOX = (By.CSS_SELECTOR, 'a[data-id="Доставка в магазини ROZETKA"]')
-    READY_TO_DEPARTURE_BOX = (By.CSS_SELECTOR, 'a[data-id="Готовий до відправлення"]')
+    FREE_DELIVERY_BOX = (By.XPATH, '//*[@data-id="Доставка в магазини ROZETKA"]')
+    READY_TO_DEPARTURE_BOX = (By.XPATH, '//*[@data-id="Готовий до відправлення"]')
     ALCO_TYPES = (By.CSS_SELECTOR, "a.goods-tile__picture")
 
     # CURRENT PRODUCT LOCATORS
