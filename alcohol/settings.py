@@ -49,9 +49,10 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'visky',
     'products',
-    'django_extensions',
-    'debug_toolbar',
+    'cacheops',
 ]
+if DEBUG:
+    INSTALLED_APPS.extend(['django_extensions', 'debug_toolbar',])
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -110,6 +111,37 @@ if 'DATABASE_URL' in os.environ and not DEBUG:
         conn_max_age=500,
         conn_health_checks=True,
     )
+
+# caching
+CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'redis://127.0.0.1:6379/1',  # Або ваш Redis URL
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
+        }
+    }
+
+CACHEOPS_REDIS = {
+        'host': 'localhost', # Ваш хост Redis
+        'port': 6379,        # Порт Redis
+        'db': 1,             # Використовувана база даних Redis
+        'socket_timeout': 3,
+    }
+
+CACHEOPS = {
+        # Автоматичний кеш для всіх моделей
+        # '*.*': {'ops': 'all', 'timeout': 60*60},
+        # Виключення для окремих моделей
+        'auth.user': {'ops': 'get', 'timeout': 60*15},
+        'auth.permission': {'ops': ('fetch', 'get'), 'timeout': 60*60},
+        'visky.alcohol': {'ops': (), "timeout": 60 * 60},
+    }
+
+    # Використання кешу для ORM
+CACHEOPS_DEGRADE_ON_FAILURE = True
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
