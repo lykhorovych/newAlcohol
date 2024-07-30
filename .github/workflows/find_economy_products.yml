@@ -2,6 +2,10 @@ name: Find products with economy
 on:
    schedule:
      - cron: '0 12 * * 3'  # if github.event.schedule != '0 18 * * 6'
+   push:
+    branches:
+      - 'main'
+
 jobs:
   search_products_with_economy:
     runs-on:
@@ -20,20 +24,21 @@ jobs:
       - name: start scrapping
         run: |
              python manage.py runscript run_script --script-args undetected headless
+             
       - name: commit changes  
         uses: EndBug/add-and-commit@v9
         with:
-            add: '/static/images'
+            add: 'static'
             github_token: ${{ secrets.Qauto }}
             author_name: oleh lykhorovych
             message: 'add downloaded images'
       - name: collect static files
         run: |
-              python manage.py collectstatic --noinput --clear
+              python manage.py collectstatic --noinput
       - name: commit collectioned static files   
         uses: EndBug/add-and-commit@v9           
         with:
-            add: '/staticfiles/'
+            add: 'staticfiles'
             github_token: ${{ secrets.Qauto }}
             author_name: oleh lykhorovych
             message: 'add downloaded images'
