@@ -15,3 +15,6 @@ wget==3.2
 whitenoise==6.6.0
 plotly
 kaleido
+django-cacheops
+django-redis
+redis
