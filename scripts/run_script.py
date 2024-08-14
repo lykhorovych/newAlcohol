@@ -84,13 +84,14 @@ def run(*args):
 					product.price_statistic.append((time.strftime("%Y/%m/%d", time.localtime()), price_top))
 					product.save()
 					print(product)
-				else:
-					print("photo is exists  ", img)
-					if not os.path.exists(os.path.join(settings.STATICFILES_DIRS[0], img.split("/")[-1])):
+				print("checking if photo is exists  ", img)
+				if not os.path.exists(os.path.join(settings.STATICFILES_DIRS[0], img.split("/")[-1])):
+						print("photo is not exists  ", img)
 						subprocess.run(["wget", 
 					 				"-b", f"{img}", 
 									"-P", r"/static/"])
-						print("photo is not exists  ", img)
+						if os.path.exists(os.path.join(settings.STATICFILES_DIRS[0], img.split("/")[-1])):
+							print('photo is downloaded', img)
 
 			pages = atb_page.get_all_pages()
 			pages[idx + 1].click()
