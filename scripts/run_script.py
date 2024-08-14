@@ -87,10 +87,10 @@ def run(*args):
 				print("checking if photo is exists  ", img)
 				if not os.path.exists(os.path.join(settings.STATICFILES_DIRS[0], img.split("/")[-1])):
 						print("photo is not exists  ", img)
-						subprocess.run(["wget", 
+						res = subprocess.run(["wget", 
 					 				"-b", f"{img}", 
-									"-P", r"/static/"])
-						if os.path.exists(os.path.join(settings.STATICFILES_DIRS[0], img.split("/")[-1])):
+									"-P", settings.STATICFILES_DIRS[0]])
+						if not res.returncode and os.path.exists(os.path.join(settings.STATICFILES_DIRS[0], img.split("/")[-1])):
 							print('photo is downloaded', img)
 
 			pages = atb_page.get_all_pages()
