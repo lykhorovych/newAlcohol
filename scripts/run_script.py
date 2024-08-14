@@ -87,7 +87,7 @@ def run(*args):
 				print("checking if photo is exists  ", img)
 				if not os.path.exists(os.path.join(settings.STATICFILES_DIRS[0], img.split("/")[-1])):
 						print("photo is not exists  ", img)
-						res = subprocess.run(["wget", 
+						subprocess.run(["wget", 
 					 				"-b", f"{img}", 
 									"-P", settings.STATICFILES_DIRS[0]])
 
