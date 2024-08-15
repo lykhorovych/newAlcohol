@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 from dotenv import load_dotenv
 
 
@@ -50,13 +49,10 @@ INSTALLED_APPS = [
     'visky',
     'products',
     'cacheops',
-    'django_extensions'
+    'django_extensions',
 ]
-if DEBUG:
-    INSTALLED_APPS.append('debug_toolbar')
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -65,7 +61,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'django.middleware.common.GZipMiddleware',
 ]
 
 ROOT_URLCONF = 'alcohol.urls'
@@ -107,12 +102,6 @@ DATABASES = {
     }
 }
 
-if 'DATABASE_URL' in os.environ and not DEBUG:
-    DATABASES['default'] = dj_database_url.config(
-        conn_max_age=500,
-        conn_health_checks=True,
-    )
-
 # caching
 CACHES = {
         'default': {
@@ -140,7 +129,7 @@ CACHEOPS = {
         'visky.alcohol': {'ops': (), "timeout": 60 * 60},
     }
 
-    # Використання кешу для ORM
+# Використання кешу для ORM
 CACHEOPS_DEGRADE_ON_FAILURE = True
 
 
@@ -192,7 +181,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # folder where command > ma
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
