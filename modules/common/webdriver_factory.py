@@ -14,7 +14,7 @@ from fake_useragent import UserAgent
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.INFO)
-handler = logging.FileHandler(settings.BASE_DIR / f"data/{__name__}.log", mode='w')
+handler = logging.FileHandler(settings.BASE_DIR / f"data/{__name__}.log", mode='wa')
 formatter = logging.Formatter("%(name)s %(asctime)s %(levelname)s %(message)s")
 handler.setFormatter(formatter)
 LOGGER.addHandler(handler)
