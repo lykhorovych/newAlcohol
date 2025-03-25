@@ -83,15 +83,15 @@ def write_to_db(alcohol: Product):
 
 
 if __name__ == '__main__':
-    check_equality_version()
+    # check_equality_version()
     print("scrapping atb page")
     alcohol_atb = get_list_of_alcohols()
     for alcohol in alcohol_atb:
         write_to_db(alcohol.to_dict())
-    print("scrapping rozetka page")
-    alcohol_rozetka = get_list_of_alcohol_in_rozetka()
-    for alcohol in alcohol_rozetka:
-        write_to_db(alcohol.to_dict())
+    # print("scrapping rozetka page")
+    # alcohol_rozetka = get_list_of_alcohol_in_rozetka()
+    # for alcohol in alcohol_rozetka:
+    #     write_to_db(alcohol.to_dict())
 
     # print(BASE_DIR.parent)
     # filenames = glob.glob(str(BASE_DIR) + r'/alcohol*.json')
@@ -100,4 +100,3 @@ if __name__ == '__main__':
     #     print(name)
     #     for el in load_all_alcohols(name):
     #         write_to_db(el)
-

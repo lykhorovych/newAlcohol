@@ -7,31 +7,38 @@ class ATBPage(BasePage):
     URL = "https://www.atbmarket.com/"
 
     def get_primary_alcohol_links(self) -> list:
-
         promo_banner = self.element_is_visible(ATBPageLocators.PROMO_POPUP)
+        print(promo_banner, 1)
         if promo_banner:  # to close promo banner if it is present
             self.close_promo_banner()
 
         alcohol_banner = self.element_is_visible(ATBPageLocators.ALCOHOL_MODAL)
+        print(alcohol_banner, 2)
         if alcohol_banner:
             alcohol_banner.click()
 
         self.scroll_down(700)
         alcohol_btn = self.element_is_visible(ATBPageLocators.ALCOGOL_BUTTON)
-        self.click_on_button(alcohol_btn)
+        print(alcohol_btn, 3)
+        if alcohol_btn:
+            self.click_on_button(alcohol_btn)
 
         alcohol_banner = self.element_is_visible(ATBPageLocators.ALCOHOL_MODAL)
+        print(alcohol_banner, 4)
         if alcohol_banner:
             alcohol_banner.click()
 
         ather_alc_btn = self.element_is_visible(ATBPageLocators.ATHER_ALCOGOL_BUTTON)
-        self.click_on_button(ather_alc_btn)
+        print(ather_alc_btn, 5)
+        if ather_alc_btn:
+            self.click_on_button(ather_alc_btn)
 
         alcohol_banner = self.element_is_visible(ATBPageLocators.ALCOHOL_MODAL)
         if alcohol_banner:
             alcohol_banner.click()
 
         alco_links = self.elements_are_visible(ATBPageLocators.LIST_OF_LINKS)
+        # print(len(alco_links))
         return alco_links
 
     def get_properties_of_alcohol_links(self, links: list):
@@ -39,7 +46,7 @@ class ATBPage(BasePage):
             main = self.driver.current_window_handle
             alco_links = self.elements_are_visible(ATBPageLocators.LIST_OF_LINKS)
             self.switch_to_new_tab(alco_links[id])
-
+            print(2)
             title = self.element_is_visible(ATBPageLocators.PRODUCT_TITLE).text
             price = self.element_is_visible(ATBPageLocators.PRODUCT_PRICE).text.split()[0]
             img_link = self.get_attribute_value(self.element_is_visible(ATBPageLocators.PICTURE_LINK),
@@ -56,6 +63,3 @@ class ATBPage(BasePage):
             self.driver.close()
             self.driver.switch_to.window(main)
             yield product
-
-
-

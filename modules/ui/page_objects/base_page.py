@@ -4,72 +4,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (NoSuchWindowException, TimeoutException,
                                         StaleElementReferenceException, NoSuchElementException, WebDriverException)
 from selenium.webdriver.common.action_chains import ActionChains
-from chromedriver_py import binary_path
-import undetected_chromedriver as uc
-from fake_useragent import UserAgent
-
+from modules.common.webdriver_factory import get_driver
 
 class BasePage:
 
-    def __init__(self, browser=None, headless=None) -> None:
-        ua = UserAgent()
-        options = uc.ChromeOptions()
-        options.add_argument("--user-agent=%s" % ua.random)
-        options.binary_location = r"/usr/bin/google-chrome"
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-notifications")
-        if headless:
-            options.add_argument("--headless=new")
-        self.options = options
-        self.driver = self.create_new_browser(browser)
+    def __init__(self) -> None:
 
-    def create_regular_driver(self):
-        print("Creating regular driver")
-        # browser path for local testing
-        # self.options.binary_location = r"/home/olykhorovych/D/courses/project_copy/LykhorovychAlcohol/browser_for_local_testing/chrome-linux/chrome"
-        driver = webdriver.Chrome(options=self.options)
-        driver.maximize_window()
-        return driver
-
-    def create_remote_webdriver(self):
-        print("Creating remote driver")
-        self.options.add_argument("--disable-notifications")
-        driver = webdriver.Remote(command_executor='http://localhost:4444/wd/hub',
-                                  options=self.options
-                                  )
-        return driver
-
-    def create_undetected_driver(self):
-        print("Creating undetected driver")
-        print(binary_path)
-        driver = uc.Chrome(
-                           driver_executable_path=binary_path,
-                           use_subprocess=False,
-                           options=self.options,
-                           #headless=True if headless else False
-        )
-        print(driver.options.binary_location)
-        driver.maximize_window()
-        return driver
-
-    def create_new_browser(self, browser):
-        if browser == 'chrome':
-            try:
-                print("trying to create chrome browser_for_local_testing")
-                return self.create_regular_driver()
-            except (NoSuchWindowException, TimeoutException, StaleElementReferenceException,
-                    NoSuchElementException, WebDriverException):
-                pass
-                # print("trying to create undetected chrome browser_for_local_testing")
-                # time.sleep(10)
-                # return self.create_undetected_driver()
-        elif browser == 'remote':
-            print("trying to create remote browser_for_local_testing")
-            return self.create_remote_webdriver()
-        else:
-            print("trying to create undetected chrome browser_for_local_testing")
-            return self.create_undetected_driver()
+        self.driver = get_driver()
 
     def open(self, url):
         return self.driver.get(url)
@@ -183,7 +124,6 @@ class BasePage:
 
     def wait_load_page_after_refresh(self):
         self.driver.execute_script("window.onload= () => {log.console('DOM loaded')};")
-
 
     def move_to_elem(self, elem):
         ActionChains(self.driver).move_to_element(elem).click_and_hold(elem).perform()

@@ -25,14 +25,16 @@ class ATBPageLocators:
 
 
 class RozetkaLocators:
-    CATALOG_LINK = (By.ID, 'fat-menu')
-    ALCO_LINK = (By.XPATH,
-                 "//li[@class='menu-categories__item'][14]//a")
+    CATALOG_LINK = (By.CSS_SELECTOR, "button[data-testid='fat_menu_btn']")
+    ALCO_LINK = (By.XPATH, "//li[@data-index='14']")
     STRONG_DRINKS_LINK = (By.XPATH, "//a[text()='Міцні напої']")
+
     EXPONEA_BANER = (By.CLASS_NAME, "exponea-banner")
     EXPONEA_BANER_CLOSE_BUTTON = (By.CLASS_NAME, 'exponea-close')
+
     CHECK_AGE_HEADING = (By.XPATH, "//h2[text()='Підтвердіть свій вік']")
     CHECK_AGE_CLOSE_BUTTON = (By.CSS_SELECTOR, "input[value='Так']")
+
     ALCO_LINK_2 = (By.CSS_SELECTOR,
                    "a[href*='krepkie-napitki']")
     FILTER_BUTTON = (By.CSS_SELECTOR, 'button[class*="catalog-settings__filter-button"]')

@@ -6,7 +6,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 class RozetkaPage(BasePage):
-    URL = "https://rozetka.com.ua/ua/"
+    URL = "https://rozetka.com.ua/"
 
     @staticmethod
     def convert_value(value):
@@ -51,22 +51,22 @@ class RozetkaPage(BasePage):
         return True
 
     def filter_alcohol(self):
-        self.scroll_down(2400)  # scroll to filter element from begin of site
-        filter_delivery = self.element_is_visible(RozetkaLocators.FREE_DELIVERY_BOX)
-        filter_delivery_button = self.element_is_clickable(filter_delivery)
-        self.click_on_button(filter_delivery_button)
-
-        self.wait_load_page_after_refresh()
-        while True:
-            try:
-                self.element_is_visible(RozetkaLocators.READY_TO_DEPARTURE_BOX)
-                break
-            except StaleElementReferenceException:
-                pass
-        ready_to_departure_button = self.element_is_clickable(RozetkaLocators.READY_TO_DEPARTURE_BOX)
-        self.click_on_button(ready_to_departure_button)
-
-        self.scroll_down(0)  # scroll to begin of site
+        # self.scroll_down(2400)  # scroll to filter element from begin of site
+        # filter_delivery = self.element_is_visible(RozetkaLocators.FREE_DELIVERY_BOX)
+        # filter_delivery_button = self.element_is_clickable(filter_delivery)
+        # self.click_on_button(filter_delivery_button)
+        #
+        # self.wait_load_page_after_refresh()
+        # while True:
+        #     try:
+        #         self.element_is_visible(RozetkaLocators.READY_TO_DEPARTURE_BOX)
+        #         break
+        #     except StaleElementReferenceException:
+        #         pass
+        # ready_to_departure_button = self.element_is_clickable(RozetkaLocators.READY_TO_DEPARTURE_BOX)
+        # self.click_on_button(ready_to_departure_button)
+        #
+        # self.scroll_down(0)  # scroll to begin of site
         alcohol_links = self.elements_are_visible(RozetkaLocators.ALCO_TYPES)
         if alcohol_links:
             return alcohol_links  # get all links of alcohol from site
