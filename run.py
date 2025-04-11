@@ -87,11 +87,11 @@ if __name__ == '__main__':
     print("scrapping atb page")
     alcohol_atb = get_list_of_alcohols()
     for alcohol in alcohol_atb:
+       write_to_db(alcohol.to_dict())
+    print("scrapping rozetka page")
+    alcohol_rozetka = get_list_of_alcohol_in_rozetka()
+    for alcohol in alcohol_rozetka:
         write_to_db(alcohol.to_dict())
-    # print("scrapping rozetka page")
-    # alcohol_rozetka = get_list_of_alcohol_in_rozetka()
-    # for alcohol in alcohol_rozetka:
-    #     write_to_db(alcohol.to_dict())
 
     # print(BASE_DIR.parent)
     # filenames = glob.glob(str(BASE_DIR) + r'/alcohol*.json')
