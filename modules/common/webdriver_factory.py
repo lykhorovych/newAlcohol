@@ -14,7 +14,7 @@ from fake_useragent import UserAgent
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.INFO)
-handler = logging.FileHandler(settings.BASE_DIR / f"data/{__name__}.log", mode='wa')
+handler = logging.FileHandler(settings.BASE_DIR / f"data/{__name__}.log", mode='a')
 formatter = logging.Formatter("%(name)s %(asctime)s %(levelname)s %(message)s")
 handler.setFormatter(formatter)
 LOGGER.addHandler(handler)
@@ -34,6 +34,7 @@ def get_chrome_driver():
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(options=options,
     )
+    driver.maximize_window()
     return driver
 
 def get_firefox_driver():
@@ -42,6 +43,7 @@ def get_firefox_driver():
     options = webdriver.FirefoxOptions()
     driver = webdriver.Firefox(options=options,
     )
+    driver.maximize_window()
     return driver
 
 def get_undetected_chrome_driver():
@@ -50,11 +52,16 @@ def get_undetected_chrome_driver():
     ua = UserAgent()
     options = uc.ChromeOptions()
     options.add_argument(f"--user-agent={ua.random}")
-    options.add_argument('--headless=new')
+    #options.add_argument('--headless=new')
     options.add_argument("--no-sandbox")
+    options.add_argument("--disable-gpu")
     options.add_argument("--disable-notifications")
     options.add_argument("--disable-smooth-scrolling")
     options.add_argument('--disable-dev-shm-usage')
+    options.add_argument("--disable-background-timer-throttling")
+    options.add_argument("--disable-backgrounding-occluded-windows")
+    options.add_argument("--disable-renderer-backgrounding")
+    options.add_argument("--disable-features=site-per-process")
 
     driver = uc.Chrome(options=options,
     )
@@ -122,6 +129,7 @@ def get_remote_webdriver():
 
     driver = webdriver.Remote(command_executor=f"{os.getenv('REMOTE_WEBBROWSER', default='http://localhost:3000')}/webdriver",
                               options=options)
+    driver.maximize_window()
     return driver
 
 def get_driver_env():

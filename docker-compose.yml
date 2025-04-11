@@ -1,0 +1,37 @@
+services:
+  scrapping:
+    mem_limit: 2g # 2 ГБ пам’яті
+    shm_size: "2gb" # Спільна пам’ять (важливо для Chrome)
+    build:
+      context: .
+    volumes:
+      - chrome-bin:/usr/src/app/chrome/linux-121.0.6167.85/chrome-linux64
+    networks:
+      - selenium_python_network
+    env_file:
+      - .env.scrapping
+    depends_on:
+      - remote_webbrowser
+    environment:
+      LOCAL: 0
+      DRIVER_ENV: urd
+    command: >
+      python run.py
+
+  remote_webbrowser:
+    image: browserless/chrome
+    environment:
+      CONNECTION_TIMEOUT: "900000"
+    ports:
+      - "3000:3000"
+    networks:
+      - selenium_python_network
+    volumes:
+      - chrome-bin:/usr/src/app/chrome/linux-121.0.6167.85/chrome-linux64
+
+networks:
+  selenium_python_network:
+    driver: bridge
+
+volumes:
+  chrome-bin:

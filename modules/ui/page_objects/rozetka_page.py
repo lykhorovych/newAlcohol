@@ -1,8 +1,16 @@
 from modules.ui.page_objects.base_page import BasePage
 from modules.ui.page_objects.locators import RozetkaLocators
 from modules.common.product import Product
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException, NoSuchElementException, ElementClickInterceptedException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
+from modules.common import logger
+
+
+LOGGER = logger.init_logger(__name__)
 
 
 class RozetkaPage(BasePage):
@@ -12,89 +20,193 @@ class RozetkaPage(BasePage):
     def convert_value(value):
         return "".join(value.split(' '))
 
-    def close_exponea_banner(self):
-        banner = self.element_is_visible(RozetkaLocators.EXPONEA_BANER)
-        if banner:
-            close_button = self.element_is_clickable(RozetkaLocators.EXPONEA_BANER_CLOSE_BUTTON)
-            close_button.click()
+    def close_banner(self, *locators):
+        try:
+            bunner = self.element_is_visible(locators[0])
+            if bunner:
+                close_button = self.element_is_clickable(locators[1])
+                if close_button:
+                    try:
+                        # scroll to close button
+                        self.driver.execute_script("arguments[0].scrollIntoView(true);", close_button)
+                        close_button.click()
+                    except ElementClickInterceptedException:
+                        try:
+                            self.driver.execute_script("arguments[0].click();", close_button)
+                        except Exception as js_err:
+                            actions = ActionChains(self.driver)
+                            actions.move_to_element(close_button)
+                            actions.click()
+                            actions.perform()
+                    print("баннер закрито")
+                else:
+                    print("кнопка закриття баннера не клікається")
+            else:
+                print("баннер не знайдено")
+        except (NoSuchElementException, TimeoutException) as err:
+            print(f"Помилка при закритті баннера {err}")
+        return self
 
-    def close_check_age_banner(self):
-        banner = self.element_is_visible(RozetkaLocators.CHECK_AGE_HEADING).text
-        if banner == 'Підтвердіть свій вік':
-            close_button = self.element_is_clickable(RozetkaLocators.CHECK_AGE_CLOSE_BUTTON)
-            close_button.click()
+    def handle_browser_alert(self):
+        try:
+            alert = WebDriverWait(driver=self.driver, timeout=5).until(EC.alert_is_present())
+            alert.dismiss()
+        except TimeoutException as err:
+            #LOGGER.error(err)
+            print(err)
+        return self
 
     def get_page_title(self, title):
         return self.title_is_present(title)
 
-    def get_alco_links(self):
+    def move_to_alco_pages(self):
+        if not self.is_title_present() == 'Інтернет-магазин ROZETKA™: офіційний сайт онлайн-гіпермаркету Розетка в Україні':
+            raise AssertionError("You dont have access to this page")
         catalog_link = self.element_is_clickable(RozetkaLocators.CATALOG_LINK)
-        if catalog_link.is_enabled():
+        if catalog_link:
             catalog_link.click()
+        self.handle_browser_alert().\
+            close_banner(RozetkaLocators.EXPONEA_BANER, RozetkaLocators.EXPONEA_BANER_CLOSE_BUTTON).\
+                close_banner(RozetkaLocators.CHECK_AGE_HEADING, RozetkaLocators.CHECK_AGE_CLOSE_BUTTON).\
+                close_banner(RozetkaLocators.EXPONEA_FILTER_BANNER, RozetkaLocators.EXPONEA_CLOSE_CROSS_BUTTON)
+
+        # Find and hover over main alcohol link
         main_alco_link = self.element_is_clickable(RozetkaLocators.ALCO_LINK)
-        ActionChains(self.driver).move_to_element(main_alco_link).perform()
-        # if main_alco_link.is_enabled():
-            # main_alco_link.click()
+        if main_alco_link:
+            actions = ActionChains(self.driver)
+            actions.move_to_element(main_alco_link).perform() # hover over main alcohol link
 
-        # assert self.get_page_title('Алкогольні напої і продукти харчування') is True
-
-        # self.close_exponea_banner()
-
-        second_alco_link = self.element_is_clickable(RozetkaLocators.STRONG_DRINKS_LINK)
-        if second_alco_link.is_enabled():
-            second_alco_link.click()
+            # Find and click the target link
+            second_alco_link = self.element_is_clickable(RozetkaLocators.STRONG_DRINKS_LINK)
+            if second_alco_link:
+                actions.move_to_element(second_alco_link).perform() # hover over target alcohol linkq
+                actions.click(second_alco_link).perform()
+                #second_alco_link.click()
+            else:
+                print("target alcohol link not found, trying to open page manually")
+                self.driver.get("https://rozetka.com.ua/ua/krepkie-napitki/c4594292/")
+        else:
+            raise AssertionError("Main alcohol link not found")
 
         assert self.get_page_title('Міцні напої') is True
-
-        self.close_check_age_banner()
+        self.handle_browser_alert().\
+            close_banner(RozetkaLocators.EXPONEA_BANER, RozetkaLocators.EXPONEA_BANER_CLOSE_BUTTON).\
+                close_banner(RozetkaLocators.CHECK_AGE_HEADING, RozetkaLocators.CHECK_AGE_CLOSE_BUTTON).\
+                    close_banner(RozetkaLocators.EXPONEA_FILTER_BANNER, RozetkaLocators.EXPONEA_CLOSE_CROSS_BUTTON)
 
         return True
 
     def filter_alcohol(self):
-        # self.scroll_down(2400)  # scroll to filter element from begin of site
-        # filter_delivery = self.element_is_visible(RozetkaLocators.FREE_DELIVERY_BOX)
-        # filter_delivery_button = self.element_is_clickable(filter_delivery)
-        # self.click_on_button(filter_delivery_button)
-        #
-        # self.wait_load_page_after_refresh()
-        # while True:
-        #     try:
-        #         self.element_is_visible(RozetkaLocators.READY_TO_DEPARTURE_BOX)
-        #         break
-        #     except StaleElementReferenceException:
-        #         pass
-        # ready_to_departure_button = self.element_is_clickable(RozetkaLocators.READY_TO_DEPARTURE_BOX)
-        # self.click_on_button(ready_to_departure_button)
-        #
-        # self.scroll_down(0)  # scroll to begin of site
-        alcohol_links = self.elements_are_visible(RozetkaLocators.ALCO_TYPES)
+
+        main_url = "https://rozetka.com.ua/ua/krepkie-napitki/c4594292/"
+        try:
+            alcohol_links = self.elements_are_visible(RozetkaLocators.ALCO_TYPES)
+        except Exception as err:
+            LOGGER.error(err)
+            self.handle_browser_alert().\
+                close_banner(RozetkaLocators.EXPONEA_BANER, RozetkaLocators.EXPONEA_BANER_CLOSE_BUTTON).\
+                close_banner(RozetkaLocators.CHECK_AGE_HEADING, RozetkaLocators.CHECK_AGE_CLOSE_BUTTON).\
+                close_banner(RozetkaLocators.EXPONEA_FILTER_BANNER, RozetkaLocators.EXPONEA_CLOSE_CROSS_BUTTON)
+            alcohol_links = self.elements_are_visible(RozetkaLocators.ALCO_TYPES)
         if alcohol_links:
-            return alcohol_links  # get all links of alcohol from site
-        return None
+            links = map(
+                lambda item: self.get_attribute_value(item, "href"),
+                alcohol_links
+                )
+
+            yield links  # get all links of alcohol from site
+
+        page = 2
+
+        while True:
+            self.driver.get(main_url + f"page={page}/")
+            if self.driver.current_url == main_url:
+                break
+            try:
+                alcohol_links = self.elements_are_visible(RozetkaLocators.ALCO_TYPES)
+            except Exception as err:
+                LOGGER.error(err)
+                self.handle_browser_alert().\
+                    close_banner(RozetkaLocators.EXPONEA_BANER, RozetkaLocators.EXPONEA_BANER_CLOSE_BUTTON).\
+                    close_banner(RozetkaLocators.CHECK_AGE_HEADING, RozetkaLocators.CHECK_AGE_CLOSE_BUTTON).\
+                    close_banner(RozetkaLocators.EXPONEA_FILTER_BANNER, RozetkaLocators.EXPONEA_CLOSE_CROSS_BUTTON)
+                alcohol_links = self.elements_are_visible(RozetkaLocators.ALCO_TYPES)
+            if alcohol_links:
+                links = map(
+                    lambda item: self.get_attribute_value(item, "href"),
+                    alcohol_links)
+                print(f"Page {page}")
+                yield links  # get all links of alcohol from site
+            page += 1
+
+        #return None
+
+    def get_product_data(self):
+        title = self.element_is_visible(RozetkaLocators.ALCOHOL_NAME)
+        if not (title == False):
+            print(title)
+            title = title.text
+        price = self.element_is_visible(
+            RozetkaLocators.ALCOHOL_PRICE)
+        if price:
+            price = self.convert_value(price.text[:-1])
+        img_link = self.element_is_visible(
+            RozetkaLocators.ALCOHOL_IMAGE_URL)
+        if img_link:
+            img_link = self.get_attribute_value(img_link,"src")
+        product_link = self.driver.current_url
+        product_code = self.element_is_visible(
+            RozetkaLocators.ALCOHOL_CODE)
+        if product_code:
+            product_code = product_code.text.split(" ")[-1]
+        characteristic_link = self.element_is_clickable(RozetkaLocators.CHARACTERISTIC_LINK)
+        if characteristic_link:
+            characteristic_link.click()
+        self.wait_load_page()
+        try:
+            characteristics = self.elements_are_visible(
+                RozetkaLocators.CHARACTERISTIC_VALUES)
+        except StaleElementReferenceException as err:
+            LOGGER.error(err)
+            self.handle_browser_alert().\
+                close_banner(RozetkaLocators.EXPONEA_BANER, RozetkaLocators.EXPONEA_BANER_CLOSE_BUTTON).\
+                    close_banner(RozetkaLocators.CHECK_AGE_HEADING, RozetkaLocators.CHECK_AGE_CLOSE_BUTTON).\
+                        close_banner(RozetkaLocators.EXPONEA_FILTER_BANNER, RozetkaLocators.EXPONEA_CLOSE_CROSS_BUTTON)
+            characteristics = self.elements_are_visible(
+                RozetkaLocators.CHARACTERISTIC_VALUES)
+        if characteristics:
+            characteristics = map(lambda x: x.text.split("\n"), characteristics)
+            characteristic = list(characteristics)
+        else:
+            characteristic = []
+            LOGGER.info(f"Can not find characteristic for those characteristic link\
+                {RozetkaLocators.CHARACTERISTIC_LINK} and characteristic values\
+                {RozetkaLocators.CHARACTERISTIC_VALUES} locators")
+        product = Product(id=id, name=title, price=float(price),
+                            img=img_link, link=product_link, code=int(product_code),
+                            characteristic=characteristic
+                            )
+        print(product.to_dict())
+        return product
 
     def get_alcohol(self, links):
+
+        main_window = self.driver.current_window_handle
         for id, link in enumerate(links):
-            main = self.driver.current_window_handle
-            alcohol_links = self.elements_are_visible(RozetkaLocators.ALCO_TYPES)
-            self.switch_to_new_tab(alcohol_links[id])
+            print(id, link)
+            self.switch_to_new_tab(link)
+            print(self.driver.current_url)
+            #if not self.is_new_window_opened(current_handles):
+            #     raise AssertionError("The new alcohol window is not opened")
+            self.wait_load_page()
+            # close all banners on new page
+            self.handle_browser_alert().\
+                close_banner(RozetkaLocators.EXPONEA_BANER, RozetkaLocators.EXPONEA_BANER_CLOSE_BUTTON).\
+                    close_banner(RozetkaLocators.CHECK_AGE_HEADING, RozetkaLocators.CHECK_AGE_CLOSE_BUTTON).\
+                        close_banner(RozetkaLocators.EXPONEA_FILTER_BANNER, RozetkaLocators.EXPONEA_CLOSE_CROSS_BUTTON)
 
-            title = self.element_is_visible(RozetkaLocators.ALCOHOL_NAME).text
-            price = self.convert_value(self.element_is_visible(
-                RozetkaLocators.ALCOHOL_PRICE).text[:-1])
-            img_link = self.get_attribute_value(self.element_is_visible(
-                RozetkaLocators.ALCOHOL_IMAGE_URL),"src")
-            characteristic = self.element_is_visible(
-                RozetkaLocators.CHARACTERISTIC_VALUES).text.split("\n")
-            product_link = self.driver.current_url
-            product_code = self.element_is_visible(
-                RozetkaLocators.ALCOHOL_CODE).text.split(" ")[-1]
-            characteristic = list(zip(characteristic[::2], characteristic[1::2]))
-            product = Product(id=id, name=title, price=float(price),
-                              img=img_link, link=product_link, code=int(product_code),
-                              characteristic=characteristic
-                              )
-
+            product = self.get_product_data()
             self.driver.close()
-            self.driver.switch_to.window(main)
+            self.driver.switch_to.window(main_window)
 
             yield product

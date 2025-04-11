@@ -43,10 +43,17 @@ def get_list_of_alcohol_in_rozetka():
     # page.switch_to_handle()
 
     try:
-        alco_links = page.get_alco_links()
-        if alco_links:
-            for product in page.get_alcohol(page.filter_alcohol()):
-                yield product
+        if page.move_to_alco_pages():
+            #for product in page.get_alcohol(page.filter_alcohol()):
+            #    yield product
+            # get generator of alcohol pages
+            alcohol_pages = page.filter_alcohol() # return a generator of lists
+            # get generator of products from each alcohol page
+            for page_links in alcohol_pages:  # page_links - it is list of links
+                #products = page.get_alcohol(page_links)  # return a generator of products
+                #for product in products:
+                #    yield product
+                yield from page.get_alcohol(page_links)
     except (NoSuchWindowException, TimeoutException):
         page.driver.save_screenshot(
             BASE_DIR / 'screenshots/screenshot_selenium_error.png'
