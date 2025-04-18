@@ -39,13 +39,16 @@ class ATBPage(BasePage):
 
         alco_links = self.elements_are_visible(ATBPageLocators.LIST_OF_LINKS)
         # print(len(alco_links))
-        return alco_links
+        if alco_links:
+            alco_links = map(lambda x: x.get_attribute("href"), alco_links)
+            return alco_links
+        return None
 
     def get_properties_of_alcohol_links(self, links: list):
         for id, link in enumerate(links):
             main = self.driver.current_window_handle
             alco_links = self.elements_are_visible(ATBPageLocators.LIST_OF_LINKS)
-            self.switch_to_new_tab(alco_links[id])
+            self.switch_to_new_tab(link)
             print(2)
             title = self.element_is_visible(ATBPageLocators.PRODUCT_TITLE).text
             price = self.element_is_visible(ATBPageLocators.PRODUCT_PRICE).text.split()[0]
