@@ -47,8 +47,8 @@ class ATBPage(BasePage):
     def get_properties_of_alcohol_links(self, links: list):
         for id, link in enumerate(links):
             main = self.driver.current_window_handle
-            alco_links = self.elements_are_visible(ATBPageLocators.LIST_OF_LINKS)
             self.switch_to_new_tab(link)
+            self.wait_load_page()
             print(2)
             title = self.element_is_visible(ATBPageLocators.PRODUCT_TITLE).text
             price = self.element_is_visible(ATBPageLocators.PRODUCT_PRICE).text.split()[0]
