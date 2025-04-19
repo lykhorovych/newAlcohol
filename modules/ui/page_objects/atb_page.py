@@ -41,17 +41,27 @@ class ATBPage(BasePage):
         return None
 
     def get_product_characteristics(self):
-        title = self.element_is_visible(ATBPageLocators.PRODUCT_TITLE).text
-        price = self.element_is_visible(ATBPageLocators.PRODUCT_PRICE).text.split()[0]
+        title = self.element_is_visible(ATBPageLocators.PRODUCT_TITLE)
+        if title:
+            title = title.text
+        price = self.element_is_visible(ATBPageLocators.PRODUCT_PRICE)
+        if price:
+            price = float(price.text.split()[0])
         img_link = self.get_attribute_value(self.element_is_visible(ATBPageLocators.PICTURE_LINK),
                                        "src")
-        characteristic = self.element_is_visible(ATBPageLocators.CHARACTERISTICS_VALUES).text.split("\n")
+        characteristic = self.element_is_visible(ATBPageLocators.CHARACTERISTICS_VALUES)
+        if characteristic:
+            characteristic = characteristic.text.split("\n")
+            characteristic = list(zip(characteristic[::2], characteristic[1::2]))
         alcohol_link = self.driver.current_url
-        product_code = self.element_is_present(ATBPageLocators.PRODUCT_CODE).text
-        characteristic = list(zip(characteristic[::2], characteristic[1::2]))
-        is_available = self.element_is_present(ATBPageLocators.AVAILABLE_TEXT).text
-        product = Product(id=id, name=title, price=float(price),
-                          img=img_link, link=alcohol_link, code=int(product_code),
+        product_code = self.element_is_present(ATBPageLocators.PRODUCT_CODE)
+        if product_code:
+            product_code = int(product_code.text)
+        is_available = self.element_is_present(ATBPageLocators.AVAILABLE_TEXT)
+        if is_available:
+            is_available = is_available.text
+        product = Product(id=id, name=title, price=price,
+                          img=img_link, link=alcohol_link, code=product_code,
                           characteristic=characteristic)
 
         return product
