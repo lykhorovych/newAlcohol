@@ -5,7 +5,9 @@ class ATBPageLocators:
 
     # SEARCH PRODUCTS LOCATORS
     PROMO_POPUP = (By.ID, 'promocodePopup')
-    ALCOHOL_MODAL = (By.CSS_SELECTOR, '.alcohol-modal__submit')
+    CLOSE_PROMO_POPUP = (By.CLASS_NAME, 'promocode-popup__close close-btn')
+    ALCOHOL_MODAL = (By.CLASS_NAME, 'alcohol-modal')
+    ALCOHOL_MODAL_SUBMIT = (By.CSS_SELECTOR, '.alcohol-modal__submit')
     CATALOG_BUTTON = (By.CSS_SELECTOR, "button[aria-controls='catalog-category']")
     CATALOG_LIST = (By.CLASS_NAME, "catalog-button--store")
     ALCOGOL_BUTTON = (By.CLASS_NAME, "home-categories__item--alcohol")
