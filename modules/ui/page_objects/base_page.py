@@ -5,7 +5,9 @@ from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (NoSuchWindowException, TimeoutException,
-                                        StaleElementReferenceException, NoSuchElementException, WebDriverException, NoAlertPresentException)
+                                        StaleElementReferenceException, NoSuchElementException,
+                                        WebDriverException, NoAlertPresentException,
+                                        ElementClickInterceptedException, ElementNotInteractableException)
 from selenium.webdriver.common.action_chains import ActionChains
 from modules.common.webdriver_factory import get_driver
 from selenium.webdriver.remote.webelement import WebElement
@@ -182,3 +184,30 @@ class BasePage:
         except TimeoutException as err:
             LOGGER.error(err)
             return False
+
+    def close_banner(self, *locators):
+        try:
+            bunner = self.element_is_visible(locators[0])
+            if bunner:
+                close_button = self.element_is_clickable(locators[1])
+                if close_button:
+                    try:
+                        # scroll to close button
+                        self.driver.execute_script("arguments[0].scrollIntoView(true);", close_button)
+                        close_button.click()
+                    except ElementClickInterceptedException:
+                        try:
+                            self.driver.execute_script("arguments[0].click();", close_button)
+                        except Exception as js_err:
+                            actions = ActionChains(self.driver)
+                            actions.move_to_element(close_button)
+                            actions.click()
+                            actions.perform()
+                    print("баннер закрито")
+                else:
+                    print("кнопка закриття баннера не клікається")
+            else:
+                print("баннер не знайдено")
+        except (NoSuchElementException, TimeoutException) as err:
+            print(f"Помилка при закритті баннера {err}")
+        return self
