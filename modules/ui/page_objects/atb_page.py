@@ -7,61 +7,62 @@ class ATBPage(BasePage):
     URL = "https://www.atbmarket.com/"
 
     def get_primary_alcohol_links(self) -> list:
-        promo_banner = self.element_is_visible(ATBPageLocators.PROMO_POPUP)
-        print(promo_banner, 1)
-        if promo_banner:  # to close promo banner if it is present
-            self.close_promo_banner()
-
-        alcohol_banner = self.element_is_visible(ATBPageLocators.ALCOHOL_MODAL)
-        print(alcohol_banner, 2)
-        if alcohol_banner:
-            alcohol_banner.click()
+        self.close_banner(ATBPageLocators.PROMO_POPUP,
+                          ATBPageLocators.CLOSE_PROMO_POPUP).\
+                          close_banner(ATBPageLocators.ALCOHOL_MODAL,
+                                       ATBPageLocators.ALCOHOL_MODAL_SUBMIT)
 
         self.scroll_down(700)
         alcohol_btn = self.element_is_visible(ATBPageLocators.ALCOGOL_BUTTON)
-        print(alcohol_btn, 3)
         if alcohol_btn:
+            print("Alcohol button clicked", alcohol_btn)
             self.click_on_button(alcohol_btn)
 
-        alcohol_banner = self.element_is_visible(ATBPageLocators.ALCOHOL_MODAL)
-        print(alcohol_banner, 4)
-        if alcohol_banner:
-            alcohol_banner.click()
+        self.close_banner(ATBPageLocators.PROMO_POPUP,
+                          ATBPageLocators.CLOSE_PROMO_POPUP).\
+                          close_banner(ATBPageLocators.ALCOHOL_MODAL,
+                                       ATBPageLocators.ALCOHOL_MODAL_SUBMIT)
 
         ather_alc_btn = self.element_is_visible(ATBPageLocators.ATHER_ALCOGOL_BUTTON)
-        print(ather_alc_btn, 5)
         if ather_alc_btn:
+            print("Ather alcohol button clicked", ather_alc_btn)
             self.click_on_button(ather_alc_btn)
 
-        alcohol_banner = self.element_is_visible(ATBPageLocators.ALCOHOL_MODAL)
-        if alcohol_banner:
-            alcohol_banner.click()
+        self.close_banner(ATBPageLocators.PROMO_POPUP,
+                          ATBPageLocators.CLOSE_PROMO_POPUP).\
+                          close_banner(ATBPageLocators.ALCOHOL_MODAL,
+                                       ATBPageLocators.ALCOHOL_MODAL_SUBMIT)
 
         alco_links = self.elements_are_visible(ATBPageLocators.LIST_OF_LINKS)
-        # print(len(alco_links))
         if alco_links:
+            print(len(alco_links))
             alco_links = map(lambda x: x.get_attribute("href"), alco_links)
             return alco_links
         return None
+
+    def get_product_characteristics(self):
+        title = self.element_is_visible(ATBPageLocators.PRODUCT_TITLE).text
+        price = self.element_is_visible(ATBPageLocators.PRODUCT_PRICE).text.split()[0]
+        img_link = self.get_attribute_value(self.element_is_visible(ATBPageLocators.PICTURE_LINK),
+                                       "src")
+        characteristic = self.element_is_visible(ATBPageLocators.CHARACTERISTICS_VALUES).text.split("\n")
+        alcohol_link = self.driver.current_url
+        product_code = self.element_is_present(ATBPageLocators.PRODUCT_CODE).text
+        characteristic = list(zip(characteristic[::2], characteristic[1::2]))
+        is_available = self.element_is_present(ATBPageLocators.AVAILABLE_TEXT).text
+        product = Product(id=id, name=title, price=float(price),
+                          img=img_link, link=alcohol_link, code=int(product_code),
+                          characteristic=characteristic)
+
+        return product
 
     def get_properties_of_alcohol_links(self, links: list):
         for id, link in enumerate(links):
             main = self.driver.current_window_handle
             self.switch_to_new_tab(link)
             self.wait_load_page()
-            print(2)
-            title = self.element_is_visible(ATBPageLocators.PRODUCT_TITLE).text
-            price = self.element_is_visible(ATBPageLocators.PRODUCT_PRICE).text.split()[0]
-            img_link = self.get_attribute_value(self.element_is_visible(ATBPageLocators.PICTURE_LINK),
-                                           "src")
-            characteristic = self.element_is_visible(ATBPageLocators.CHARACTERISTICS_VALUES).text.split("\n")
-            alcohol_link = self.driver.current_url
-            product_code = self.element_is_present(ATBPageLocators.PRODUCT_CODE).text
-            characteristic = list(zip(characteristic[::2], characteristic[1::2]))
-            is_available = self.element_is_present(ATBPageLocators.AVAILABLE_TEXT).text
-            product = Product(id=id, name=title, price=float(price),
-                              img=img_link, link=alcohol_link, code=int(product_code),
-                              characteristic=characteristic)
+
+            product = self.get_product_characteristics()
 
             self.driver.close()
             self.driver.switch_to.window(main)
