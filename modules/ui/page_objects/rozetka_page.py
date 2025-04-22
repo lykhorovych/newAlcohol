@@ -175,6 +175,7 @@ class RozetkaPage(BasePage):
             characteristics = self.elements_are_visible(
                 RozetkaLocators.CHARACTERISTIC_VALUES)
         if characteristics:
+            LOGGER.info(f"characteristics {characteristics}")
             characteristics = map(lambda x: x.text.split("\n"), characteristics)
             characteristic = list(characteristics)
         else:
@@ -204,9 +205,11 @@ class RozetkaPage(BasePage):
                 close_banner(RozetkaLocators.EXPONEA_BANER, RozetkaLocators.EXPONEA_BANER_CLOSE_BUTTON).\
                     close_banner(RozetkaLocators.CHECK_AGE_HEADING, RozetkaLocators.CHECK_AGE_CLOSE_BUTTON).\
                         close_banner(RozetkaLocators.EXPONEA_FILTER_BANNER, RozetkaLocators.EXPONEA_CLOSE_CROSS_BUTTON)
-
-            product = self.get_product_data()
-            self.driver.close()
-            self.driver.switch_to.window(main_window)
-
-            yield product
+            try:
+                product = self.get_product_data()
+                yield product
+            except Exception as e:
+                LOGGER.error(f"Error occurred while getting product data: {e}")
+            finally:
+                self.driver.close()
+                self.driver.switch_to.window(main_window)
